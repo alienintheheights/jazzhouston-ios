@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491135B61743214E0068CFE5 /* JazzHoustonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 491135B31743214E0068CFE5 /* JazzHoustonAppDelegate.m */; };
+		491135B71743214E0068CFE5 /* JazzHoustonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491135B51743214E0068CFE5 /* JazzHoustonViewController.m */; };
 		49288975174315830033AEF0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49819E571742F9BA00B02B1D /* MainStoryboard.storyboard */; };
 		4981616217431E3A0094E942 /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615717431E3A0094E942 /* EventDetailViewController.m */; };
 		4981616317431E3A0094E942 /* EventIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615917431E3A0094E942 /* EventIndexTableViewController.m */; };
@@ -32,16 +34,15 @@
 		49819E001742F7B300B02B1D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49819DFF1742F7B300B02B1D /* CoreGraphics.framework */; };
 		49819E061742F7B300B02B1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 49819E041742F7B300B02B1D /* InfoPlist.strings */; };
 		49819E081742F7B300B02B1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E071742F7B300B02B1D /* main.m */; };
-		49819E4D1742F92400B02B1D /* MusicianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E361742F92400B02B1D /* MusicianViewController.m */; };
-		49819E4E1742F92400B02B1D /* NSString+stripHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E381742F92400B02B1D /* NSString+stripHTML.m */; };
-		49819E4F1742F92400B02B1D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E3A1742F92400B02B1D /* User.m */; };
-		49819E501742F92400B02B1D /* UserRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E3C1742F92400B02B1D /* UserRef.m */; };
-		49819E5B1742F9DC00B02B1D /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E5A1742F9DC00B02B1D /* AsyncImageView.m */; };
 		49819E601742FB9A00B02B1D /* JazzHoustonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E5E1742FB9A00B02B1D /* JazzHoustonAppDelegate.m */; };
 		49819E631742FC1C00B02B1D /* JazzHoustonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E621742FC1C00B02B1D /* JazzHoustonViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		491135B21743214E0068CFE5 /* JazzHoustonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JazzHoustonAppDelegate.h; sourceTree = "<group>"; };
+		491135B31743214E0068CFE5 /* JazzHoustonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JazzHoustonAppDelegate.m; sourceTree = "<group>"; };
+		491135B41743214E0068CFE5 /* JazzHoustonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JazzHoustonViewController.h; sourceTree = "<group>"; };
+		491135B51743214E0068CFE5 /* JazzHoustonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JazzHoustonViewController.m; sourceTree = "<group>"; };
 		4981615617431E3A0094E942 /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDetailViewController.h; path = Shows/EventDetailViewController.h; sourceTree = "<group>"; };
 		4981615717431E3A0094E942 /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventDetailViewController.m; path = Shows/EventDetailViewController.m; sourceTree = "<group>"; };
 		4981615817431E3A0094E942 /* EventIndexTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventIndexTableViewController.h; path = Shows/EventIndexTableViewController.h; sourceTree = "<group>"; };
@@ -91,17 +92,7 @@
 		49819E0F1742F7B300B02B1D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		49819E111742F7B300B02B1D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		49819E181742F7DB00B02B1D /* jazzhouston.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jazzhouston.png; sourceTree = "<group>"; };
-		49819E351742F92400B02B1D /* MusicianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicianViewController.h; sourceTree = "<group>"; };
-		49819E361742F92400B02B1D /* MusicianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicianViewController.m; sourceTree = "<group>"; };
-		49819E371742F92400B02B1D /* NSString+stripHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+stripHTML.h"; sourceTree = "<group>"; };
-		49819E381742F92400B02B1D /* NSString+stripHTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+stripHTML.m"; sourceTree = "<group>"; };
-		49819E391742F92400B02B1D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		49819E3A1742F92400B02B1D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		49819E3B1742F92400B02B1D /* UserRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRef.h; sourceTree = "<group>"; };
-		49819E3C1742F92400B02B1D /* UserRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRef.m; sourceTree = "<group>"; };
 		49819E571742F9BA00B02B1D /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
-		49819E591742F9DC00B02B1D /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
-		49819E5A1742F9DC00B02B1D /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		49819E5E1742FB9A00B02B1D /* JazzHoustonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JazzHoustonAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		49819E5F1742FB9A00B02B1D /* JazzHoustonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JazzHoustonAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		49819E611742FC1C00B02B1D /* JazzHoustonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JazzHoustonViewController.h; sourceTree = SOURCE_ROOT; };
@@ -153,6 +144,10 @@
 		49819E011742F7B300B02B1D /* JazzHouston */ = {
 			isa = PBXGroup;
 			children = (
+				491135B21743214E0068CFE5 /* JazzHoustonAppDelegate.h */,
+				491135B31743214E0068CFE5 /* JazzHoustonAppDelegate.m */,
+				491135B41743214E0068CFE5 /* JazzHoustonViewController.h */,
+				491135B51743214E0068CFE5 /* JazzHoustonViewController.m */,
 				49819E611742FC1C00B02B1D /* JazzHoustonViewController.h */,
 				49819E621742FC1C00B02B1D /* JazzHoustonViewController.m */,
 				49819E5E1742FB9A00B02B1D /* JazzHoustonAppDelegate.m */,
@@ -207,10 +202,6 @@
 				4981618917431E860094E942 /* AsyncImageView.m */,
 				4981618A17431E860094E942 /* NSString+stripHTML.h */,
 				4981618B17431E860094E942 /* NSString+stripHTML.m */,
-				49819E591742F9DC00B02B1D /* AsyncImageView.h */,
-				49819E5A1742F9DC00B02B1D /* AsyncImageView.m */,
-				49819E371742F92400B02B1D /* NSString+stripHTML.h */,
-				49819E381742F92400B02B1D /* NSString+stripHTML.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -246,12 +237,6 @@
 				4981618217431E7D0094E942 /* User.m */,
 				4981618317431E7D0094E942 /* UserRef.h */,
 				4981618417431E7D0094E942 /* UserRef.m */,
-				49819E351742F92400B02B1D /* MusicianViewController.h */,
-				49819E361742F92400B02B1D /* MusicianViewController.m */,
-				49819E391742F92400B02B1D /* User.h */,
-				49819E3A1742F92400B02B1D /* User.m */,
-				49819E3B1742F92400B02B1D /* UserRef.h */,
-				49819E3C1742F92400B02B1D /* UserRef.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -322,11 +307,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				49819E081742F7B300B02B1D /* main.m in Sources */,
-				49819E4D1742F92400B02B1D /* MusicianViewController.m in Sources */,
-				49819E4E1742F92400B02B1D /* NSString+stripHTML.m in Sources */,
-				49819E4F1742F92400B02B1D /* User.m in Sources */,
-				49819E501742F92400B02B1D /* UserRef.m in Sources */,
-				49819E5B1742F9DC00B02B1D /* AsyncImageView.m in Sources */,
 				49819E601742FB9A00B02B1D /* JazzHoustonAppDelegate.m in Sources */,
 				49819E631742FC1C00B02B1D /* JazzHoustonViewController.m in Sources */,
 				4981616217431E3A0094E942 /* EventDetailViewController.m in Sources */,
@@ -347,6 +327,8 @@
 				4981618717431E7D0094E942 /* UserRef.m in Sources */,
 				4981618C17431E860094E942 /* AsyncImageView.m in Sources */,
 				4981618D17431E860094E942 /* NSString+stripHTML.m in Sources */,
+				491135B61743214E0068CFE5 /* JazzHoustonAppDelegate.m in Sources */,
+				491135B71743214E0068CFE5 /* JazzHoustonViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
