@@ -8,34 +8,77 @@
 
 /* Begin PBXBuildFile section */
 		49288975174315830033AEF0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49819E571742F9BA00B02B1D /* MainStoryboard.storyboard */; };
+		4981616217431E3A0094E942 /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615717431E3A0094E942 /* EventDetailViewController.m */; };
+		4981616317431E3A0094E942 /* EventIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615917431E3A0094E942 /* EventIndexTableViewController.m */; };
+		4981616417431E3A0094E942 /* EventListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615B17431E3A0094E942 /* EventListing.m */; };
+		4981616517431E3A0094E942 /* EventListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615D17431E3A0094E942 /* EventListTableViewCell.m */; };
+		4981616617431E3A0094E942 /* EventsDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981615F17431E3A0094E942 /* EventsDataController.m */; };
+		4981616717431E3A0094E942 /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981616117431E3A0094E942 /* Venue.m */; };
+		4981617717431E440094E942 /* ForumDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981616917431E440094E942 /* ForumDataController.m */; };
+		4981617817431E440094E942 /* ForumIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981616B17431E440094E942 /* ForumIndexTableViewController.m */; };
+		4981617917431E440094E942 /* ForumPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981616D17431E440094E942 /* ForumPost.m */; };
+		4981617A17431E440094E942 /* ForumPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981616F17431E440094E942 /* ForumPostTableViewCell.m */; };
+		4981617B17431E440094E942 /* ForumTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981617117431E440094E942 /* ForumTopic.m */; };
+		4981617C17431E440094E942 /* ForumTopicDisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4981617217431E440094E942 /* ForumTopicDisplayCell.xib */; };
+		4981617D17431E440094E942 /* ForumTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981617417431E440094E942 /* ForumTopicTableViewCell.m */; };
+		4981617E17431E440094E942 /* ForumTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981617617431E440094E942 /* ForumTopicViewController.m */; };
+		4981618517431E7D0094E942 /* MusicianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981618017431E7D0094E942 /* MusicianViewController.m */; };
+		4981618617431E7D0094E942 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981618217431E7D0094E942 /* User.m */; };
+		4981618717431E7D0094E942 /* UserRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981618417431E7D0094E942 /* UserRef.m */; };
+		4981618C17431E860094E942 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981618917431E860094E942 /* AsyncImageView.m */; };
+		4981618D17431E860094E942 /* NSString+stripHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981618B17431E860094E942 /* NSString+stripHTML.m */; };
 		49819DFC1742F7B300B02B1D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49819DFB1742F7B300B02B1D /* UIKit.framework */; };
 		49819DFE1742F7B300B02B1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49819DFD1742F7B300B02B1D /* Foundation.framework */; };
 		49819E001742F7B300B02B1D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49819DFF1742F7B300B02B1D /* CoreGraphics.framework */; };
 		49819E061742F7B300B02B1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 49819E041742F7B300B02B1D /* InfoPlist.strings */; };
 		49819E081742F7B300B02B1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E071742F7B300B02B1D /* main.m */; };
-		49819E3F1742F92400B02B1D /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E1B1742F92300B02B1D /* EventDetailViewController.m */; };
-		49819E401742F92400B02B1D /* EventIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E1D1742F92300B02B1D /* EventIndexTableViewController.m */; };
-		49819E411742F92400B02B1D /* EventListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E1F1742F92300B02B1D /* EventListing.m */; };
-		49819E421742F92400B02B1D /* EventListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E211742F92300B02B1D /* EventListTableViewCell.m */; };
-		49819E431742F92400B02B1D /* EventsDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E231742F92300B02B1D /* EventsDataController.m */; };
-		49819E441742F92400B02B1D /* ForumDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E251742F92300B02B1D /* ForumDataController.m */; };
-		49819E451742F92400B02B1D /* ForumIndexTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E271742F92300B02B1D /* ForumIndexTableViewController.m */; };
-		49819E461742F92400B02B1D /* ForumPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E291742F92300B02B1D /* ForumPost.m */; };
-		49819E471742F92400B02B1D /* ForumPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E2B1742F92300B02B1D /* ForumPostTableViewCell.m */; };
-		49819E481742F92400B02B1D /* ForumTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E2D1742F92300B02B1D /* ForumTopic.m */; };
-		49819E4A1742F92400B02B1D /* ForumTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E301742F92400B02B1D /* ForumTopicTableViewCell.m */; };
-		49819E4B1742F92400B02B1D /* ForumTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E321742F92400B02B1D /* ForumTopicViewController.m */; };
 		49819E4D1742F92400B02B1D /* MusicianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E361742F92400B02B1D /* MusicianViewController.m */; };
 		49819E4E1742F92400B02B1D /* NSString+stripHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E381742F92400B02B1D /* NSString+stripHTML.m */; };
 		49819E4F1742F92400B02B1D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E3A1742F92400B02B1D /* User.m */; };
 		49819E501742F92400B02B1D /* UserRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E3C1742F92400B02B1D /* UserRef.m */; };
-		49819E511742F92400B02B1D /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E3E1742F92400B02B1D /* Venue.m */; };
 		49819E5B1742F9DC00B02B1D /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E5A1742F9DC00B02B1D /* AsyncImageView.m */; };
 		49819E601742FB9A00B02B1D /* JazzHoustonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E5E1742FB9A00B02B1D /* JazzHoustonAppDelegate.m */; };
 		49819E631742FC1C00B02B1D /* JazzHoustonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49819E621742FC1C00B02B1D /* JazzHoustonViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4981615617431E3A0094E942 /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventDetailViewController.h; path = Shows/EventDetailViewController.h; sourceTree = "<group>"; };
+		4981615717431E3A0094E942 /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventDetailViewController.m; path = Shows/EventDetailViewController.m; sourceTree = "<group>"; };
+		4981615817431E3A0094E942 /* EventIndexTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventIndexTableViewController.h; path = Shows/EventIndexTableViewController.h; sourceTree = "<group>"; };
+		4981615917431E3A0094E942 /* EventIndexTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventIndexTableViewController.m; path = Shows/EventIndexTableViewController.m; sourceTree = "<group>"; };
+		4981615A17431E3A0094E942 /* EventListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListing.h; path = Shows/EventListing.h; sourceTree = "<group>"; };
+		4981615B17431E3A0094E942 /* EventListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListing.m; path = Shows/EventListing.m; sourceTree = "<group>"; };
+		4981615C17431E3A0094E942 /* EventListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListTableViewCell.h; path = Shows/EventListTableViewCell.h; sourceTree = "<group>"; };
+		4981615D17431E3A0094E942 /* EventListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListTableViewCell.m; path = Shows/EventListTableViewCell.m; sourceTree = "<group>"; };
+		4981615E17431E3A0094E942 /* EventsDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsDataController.h; path = Shows/EventsDataController.h; sourceTree = "<group>"; };
+		4981615F17431E3A0094E942 /* EventsDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventsDataController.m; path = Shows/EventsDataController.m; sourceTree = "<group>"; };
+		4981616017431E3A0094E942 /* Venue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Venue.h; path = Shows/Venue.h; sourceTree = "<group>"; };
+		4981616117431E3A0094E942 /* Venue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Venue.m; path = Shows/Venue.m; sourceTree = "<group>"; };
+		4981616817431E440094E942 /* ForumDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumDataController.h; path = Forum/ForumDataController.h; sourceTree = "<group>"; };
+		4981616917431E440094E942 /* ForumDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumDataController.m; path = Forum/ForumDataController.m; sourceTree = "<group>"; };
+		4981616A17431E440094E942 /* ForumIndexTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumIndexTableViewController.h; path = Forum/ForumIndexTableViewController.h; sourceTree = "<group>"; };
+		4981616B17431E440094E942 /* ForumIndexTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumIndexTableViewController.m; path = Forum/ForumIndexTableViewController.m; sourceTree = "<group>"; };
+		4981616C17431E440094E942 /* ForumPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumPost.h; path = Forum/ForumPost.h; sourceTree = "<group>"; };
+		4981616D17431E440094E942 /* ForumPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumPost.m; path = Forum/ForumPost.m; sourceTree = "<group>"; };
+		4981616E17431E440094E942 /* ForumPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumPostTableViewCell.h; path = Forum/ForumPostTableViewCell.h; sourceTree = "<group>"; };
+		4981616F17431E440094E942 /* ForumPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumPostTableViewCell.m; path = Forum/ForumPostTableViewCell.m; sourceTree = "<group>"; };
+		4981617017431E440094E942 /* ForumTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumTopic.h; path = Forum/ForumTopic.h; sourceTree = "<group>"; };
+		4981617117431E440094E942 /* ForumTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumTopic.m; path = Forum/ForumTopic.m; sourceTree = "<group>"; };
+		4981617217431E440094E942 /* ForumTopicDisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ForumTopicDisplayCell.xib; path = Forum/ForumTopicDisplayCell.xib; sourceTree = "<group>"; };
+		4981617317431E440094E942 /* ForumTopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumTopicTableViewCell.h; path = Forum/ForumTopicTableViewCell.h; sourceTree = "<group>"; };
+		4981617417431E440094E942 /* ForumTopicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumTopicTableViewCell.m; path = Forum/ForumTopicTableViewCell.m; sourceTree = "<group>"; };
+		4981617517431E440094E942 /* ForumTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForumTopicViewController.h; path = Forum/ForumTopicViewController.h; sourceTree = "<group>"; };
+		4981617617431E440094E942 /* ForumTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForumTopicViewController.m; path = Forum/ForumTopicViewController.m; sourceTree = "<group>"; };
+		4981617F17431E7D0094E942 /* MusicianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicianViewController.h; path = User/MusicianViewController.h; sourceTree = "<group>"; };
+		4981618017431E7D0094E942 /* MusicianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicianViewController.m; path = User/MusicianViewController.m; sourceTree = "<group>"; };
+		4981618117431E7D0094E942 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = User/User.h; sourceTree = "<group>"; };
+		4981618217431E7D0094E942 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = User/User.m; sourceTree = "<group>"; };
+		4981618317431E7D0094E942 /* UserRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserRef.h; path = User/UserRef.h; sourceTree = "<group>"; };
+		4981618417431E7D0094E942 /* UserRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserRef.m; path = User/UserRef.m; sourceTree = "<group>"; };
+		4981618817431E860094E942 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncImageView.h; path = Util/AsyncImageView.h; sourceTree = "<group>"; };
+		4981618917431E860094E942 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncImageView.m; path = Util/AsyncImageView.m; sourceTree = "<group>"; };
+		4981618A17431E860094E942 /* NSString+stripHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+stripHTML.h"; path = "Util/NSString+stripHTML.h"; sourceTree = "<group>"; };
+		4981618B17431E860094E942 /* NSString+stripHTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+stripHTML.m"; path = "Util/NSString+stripHTML.m"; sourceTree = "<group>"; };
 		49819DF81742F7B300B02B1D /* JazzHouston.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JazzHouston.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49819DFB1742F7B300B02B1D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		49819DFD1742F7B300B02B1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -48,31 +91,6 @@
 		49819E0F1742F7B300B02B1D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		49819E111742F7B300B02B1D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		49819E181742F7DB00B02B1D /* jazzhouston.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jazzhouston.png; sourceTree = "<group>"; };
-		49819E1A1742F7EF00B02B1D /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailViewController.h; sourceTree = "<group>"; };
-		49819E1B1742F92300B02B1D /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailViewController.m; sourceTree = "<group>"; };
-		49819E1C1742F92300B02B1D /* EventIndexTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventIndexTableViewController.h; sourceTree = "<group>"; };
-		49819E1D1742F92300B02B1D /* EventIndexTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventIndexTableViewController.m; sourceTree = "<group>"; };
-		49819E1E1742F92300B02B1D /* EventListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListing.h; sourceTree = "<group>"; };
-		49819E1F1742F92300B02B1D /* EventListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventListing.m; sourceTree = "<group>"; };
-		49819E201742F92300B02B1D /* EventListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListTableViewCell.h; sourceTree = "<group>"; };
-		49819E211742F92300B02B1D /* EventListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventListTableViewCell.m; sourceTree = "<group>"; };
-		49819E221742F92300B02B1D /* EventsDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsDataController.h; sourceTree = "<group>"; };
-		49819E231742F92300B02B1D /* EventsDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsDataController.m; sourceTree = "<group>"; };
-		49819E241742F92300B02B1D /* ForumDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumDataController.h; sourceTree = "<group>"; };
-		49819E251742F92300B02B1D /* ForumDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumDataController.m; sourceTree = "<group>"; };
-		49819E261742F92300B02B1D /* ForumIndexTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumIndexTableViewController.h; sourceTree = "<group>"; };
-		49819E271742F92300B02B1D /* ForumIndexTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumIndexTableViewController.m; sourceTree = "<group>"; };
-		49819E281742F92300B02B1D /* ForumPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumPost.h; sourceTree = "<group>"; };
-		49819E291742F92300B02B1D /* ForumPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumPost.m; sourceTree = "<group>"; };
-		49819E2A1742F92300B02B1D /* ForumPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumPostTableViewCell.h; sourceTree = "<group>"; };
-		49819E2B1742F92300B02B1D /* ForumPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumPostTableViewCell.m; sourceTree = "<group>"; };
-		49819E2C1742F92300B02B1D /* ForumTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumTopic.h; sourceTree = "<group>"; };
-		49819E2D1742F92300B02B1D /* ForumTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumTopic.m; sourceTree = "<group>"; };
-		49819E2E1742F92400B02B1D /* ForumTopicDisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForumTopicDisplayCell.xib; sourceTree = "<group>"; };
-		49819E2F1742F92400B02B1D /* ForumTopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumTopicTableViewCell.h; sourceTree = "<group>"; };
-		49819E301742F92400B02B1D /* ForumTopicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumTopicTableViewCell.m; sourceTree = "<group>"; };
-		49819E311742F92400B02B1D /* ForumTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumTopicViewController.h; sourceTree = "<group>"; };
-		49819E321742F92400B02B1D /* ForumTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumTopicViewController.m; sourceTree = "<group>"; };
 		49819E351742F92400B02B1D /* MusicianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicianViewController.h; sourceTree = "<group>"; };
 		49819E361742F92400B02B1D /* MusicianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicianViewController.m; sourceTree = "<group>"; };
 		49819E371742F92400B02B1D /* NSString+stripHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+stripHTML.h"; sourceTree = "<group>"; };
@@ -81,8 +99,6 @@
 		49819E3A1742F92400B02B1D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		49819E3B1742F92400B02B1D /* UserRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRef.h; sourceTree = "<group>"; };
 		49819E3C1742F92400B02B1D /* UserRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRef.m; sourceTree = "<group>"; };
-		49819E3D1742F92400B02B1D /* Venue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venue.h; sourceTree = "<group>"; };
-		49819E3E1742F92400B02B1D /* Venue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venue.m; sourceTree = "<group>"; };
 		49819E571742F9BA00B02B1D /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
 		49819E591742F9DC00B02B1D /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		49819E5A1742F9DC00B02B1D /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
@@ -168,16 +184,18 @@
 		49819E521742F93300B02B1D /* Shows */ = {
 			isa = PBXGroup;
 			children = (
-				49819E1A1742F7EF00B02B1D /* EventDetailViewController.h */,
-				49819E1B1742F92300B02B1D /* EventDetailViewController.m */,
-				49819E1C1742F92300B02B1D /* EventIndexTableViewController.h */,
-				49819E1D1742F92300B02B1D /* EventIndexTableViewController.m */,
-				49819E1E1742F92300B02B1D /* EventListing.h */,
-				49819E1F1742F92300B02B1D /* EventListing.m */,
-				49819E201742F92300B02B1D /* EventListTableViewCell.h */,
-				49819E211742F92300B02B1D /* EventListTableViewCell.m */,
-				49819E221742F92300B02B1D /* EventsDataController.h */,
-				49819E231742F92300B02B1D /* EventsDataController.m */,
+				4981615617431E3A0094E942 /* EventDetailViewController.h */,
+				4981615717431E3A0094E942 /* EventDetailViewController.m */,
+				4981615817431E3A0094E942 /* EventIndexTableViewController.h */,
+				4981615917431E3A0094E942 /* EventIndexTableViewController.m */,
+				4981615A17431E3A0094E942 /* EventListing.h */,
+				4981615B17431E3A0094E942 /* EventListing.m */,
+				4981615C17431E3A0094E942 /* EventListTableViewCell.h */,
+				4981615D17431E3A0094E942 /* EventListTableViewCell.m */,
+				4981615E17431E3A0094E942 /* EventsDataController.h */,
+				4981615F17431E3A0094E942 /* EventsDataController.m */,
+				4981616017431E3A0094E942 /* Venue.h */,
+				4981616117431E3A0094E942 /* Venue.m */,
 			);
 			name = Shows;
 			sourceTree = "<group>";
@@ -185,6 +203,10 @@
 		49819E541742F94C00B02B1D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				4981618817431E860094E942 /* AsyncImageView.h */,
+				4981618917431E860094E942 /* AsyncImageView.m */,
+				4981618A17431E860094E942 /* NSString+stripHTML.h */,
+				4981618B17431E860094E942 /* NSString+stripHTML.m */,
 				49819E591742F9DC00B02B1D /* AsyncImageView.h */,
 				49819E5A1742F9DC00B02B1D /* AsyncImageView.m */,
 				49819E371742F92400B02B1D /* NSString+stripHTML.h */,
@@ -196,21 +218,21 @@
 		49819E551742F95600B02B1D /* Forum */ = {
 			isa = PBXGroup;
 			children = (
-				49819E241742F92300B02B1D /* ForumDataController.h */,
-				49819E251742F92300B02B1D /* ForumDataController.m */,
-				49819E261742F92300B02B1D /* ForumIndexTableViewController.h */,
-				49819E271742F92300B02B1D /* ForumIndexTableViewController.m */,
-				49819E281742F92300B02B1D /* ForumPost.h */,
-				49819E291742F92300B02B1D /* ForumPost.m */,
-				49819E2A1742F92300B02B1D /* ForumPostTableViewCell.h */,
-				49819E2B1742F92300B02B1D /* ForumPostTableViewCell.m */,
-				49819E2C1742F92300B02B1D /* ForumTopic.h */,
-				49819E2D1742F92300B02B1D /* ForumTopic.m */,
-				49819E2E1742F92400B02B1D /* ForumTopicDisplayCell.xib */,
-				49819E2F1742F92400B02B1D /* ForumTopicTableViewCell.h */,
-				49819E301742F92400B02B1D /* ForumTopicTableViewCell.m */,
-				49819E311742F92400B02B1D /* ForumTopicViewController.h */,
-				49819E321742F92400B02B1D /* ForumTopicViewController.m */,
+				4981616817431E440094E942 /* ForumDataController.h */,
+				4981616917431E440094E942 /* ForumDataController.m */,
+				4981616A17431E440094E942 /* ForumIndexTableViewController.h */,
+				4981616B17431E440094E942 /* ForumIndexTableViewController.m */,
+				4981616C17431E440094E942 /* ForumPost.h */,
+				4981616D17431E440094E942 /* ForumPost.m */,
+				4981616E17431E440094E942 /* ForumPostTableViewCell.h */,
+				4981616F17431E440094E942 /* ForumPostTableViewCell.m */,
+				4981617017431E440094E942 /* ForumTopic.h */,
+				4981617117431E440094E942 /* ForumTopic.m */,
+				4981617217431E440094E942 /* ForumTopicDisplayCell.xib */,
+				4981617317431E440094E942 /* ForumTopicTableViewCell.h */,
+				4981617417431E440094E942 /* ForumTopicTableViewCell.m */,
+				4981617517431E440094E942 /* ForumTopicViewController.h */,
+				4981617617431E440094E942 /* ForumTopicViewController.m */,
 			);
 			name = Forum;
 			sourceTree = "<group>";
@@ -218,14 +240,18 @@
 		49819E561742F96B00B02B1D /* User */ = {
 			isa = PBXGroup;
 			children = (
+				4981617F17431E7D0094E942 /* MusicianViewController.h */,
+				4981618017431E7D0094E942 /* MusicianViewController.m */,
+				4981618117431E7D0094E942 /* User.h */,
+				4981618217431E7D0094E942 /* User.m */,
+				4981618317431E7D0094E942 /* UserRef.h */,
+				4981618417431E7D0094E942 /* UserRef.m */,
 				49819E351742F92400B02B1D /* MusicianViewController.h */,
 				49819E361742F92400B02B1D /* MusicianViewController.m */,
 				49819E391742F92400B02B1D /* User.h */,
 				49819E3A1742F92400B02B1D /* User.m */,
 				49819E3B1742F92400B02B1D /* UserRef.h */,
 				49819E3C1742F92400B02B1D /* UserRef.m */,
-				49819E3D1742F92400B02B1D /* Venue.h */,
-				49819E3E1742F92400B02B1D /* Venue.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -284,6 +310,7 @@
 			files = (
 				49819E061742F7B300B02B1D /* InfoPlist.strings in Resources */,
 				49288975174315830033AEF0 /* MainStoryboard.storyboard in Resources */,
+				4981617C17431E440094E942 /* ForumTopicDisplayCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,26 +322,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				49819E081742F7B300B02B1D /* main.m in Sources */,
-				49819E3F1742F92400B02B1D /* EventDetailViewController.m in Sources */,
-				49819E401742F92400B02B1D /* EventIndexTableViewController.m in Sources */,
-				49819E411742F92400B02B1D /* EventListing.m in Sources */,
-				49819E421742F92400B02B1D /* EventListTableViewCell.m in Sources */,
-				49819E431742F92400B02B1D /* EventsDataController.m in Sources */,
-				49819E441742F92400B02B1D /* ForumDataController.m in Sources */,
-				49819E451742F92400B02B1D /* ForumIndexTableViewController.m in Sources */,
-				49819E461742F92400B02B1D /* ForumPost.m in Sources */,
-				49819E471742F92400B02B1D /* ForumPostTableViewCell.m in Sources */,
-				49819E481742F92400B02B1D /* ForumTopic.m in Sources */,
-				49819E4A1742F92400B02B1D /* ForumTopicTableViewCell.m in Sources */,
-				49819E4B1742F92400B02B1D /* ForumTopicViewController.m in Sources */,
 				49819E4D1742F92400B02B1D /* MusicianViewController.m in Sources */,
 				49819E4E1742F92400B02B1D /* NSString+stripHTML.m in Sources */,
 				49819E4F1742F92400B02B1D /* User.m in Sources */,
 				49819E501742F92400B02B1D /* UserRef.m in Sources */,
-				49819E511742F92400B02B1D /* Venue.m in Sources */,
 				49819E5B1742F9DC00B02B1D /* AsyncImageView.m in Sources */,
 				49819E601742FB9A00B02B1D /* JazzHoustonAppDelegate.m in Sources */,
 				49819E631742FC1C00B02B1D /* JazzHoustonViewController.m in Sources */,
+				4981616217431E3A0094E942 /* EventDetailViewController.m in Sources */,
+				4981616317431E3A0094E942 /* EventIndexTableViewController.m in Sources */,
+				4981616417431E3A0094E942 /* EventListing.m in Sources */,
+				4981616517431E3A0094E942 /* EventListTableViewCell.m in Sources */,
+				4981616617431E3A0094E942 /* EventsDataController.m in Sources */,
+				4981616717431E3A0094E942 /* Venue.m in Sources */,
+				4981617717431E440094E942 /* ForumDataController.m in Sources */,
+				4981617817431E440094E942 /* ForumIndexTableViewController.m in Sources */,
+				4981617917431E440094E942 /* ForumPost.m in Sources */,
+				4981617A17431E440094E942 /* ForumPostTableViewCell.m in Sources */,
+				4981617B17431E440094E942 /* ForumTopic.m in Sources */,
+				4981617D17431E440094E942 /* ForumTopicTableViewCell.m in Sources */,
+				4981617E17431E440094E942 /* ForumTopicViewController.m in Sources */,
+				4981618517431E7D0094E942 /* MusicianViewController.m in Sources */,
+				4981618617431E7D0094E942 /* User.m in Sources */,
+				4981618717431E7D0094E942 /* UserRef.m in Sources */,
+				4981618C17431E860094E942 /* AsyncImageView.m in Sources */,
+				4981618D17431E860094E942 /* NSString+stripHTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
