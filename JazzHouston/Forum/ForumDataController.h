@@ -13,17 +13,20 @@
 @class ForumTopic;
 @class ForumPost;
 
-@interface ForumDataController : NSObject
+@interface ForumDataController : NSObject {
+	
+}
 
-- (int) numberOfTopicsByBoard;
++ (id) forumDataControllerInstance;
++ (void) loadTopicsInBackground:(int)pageNum andAppend:(BOOL)append completion:(void(^)(void))callback;
+
+- (int) numberOfTopics;
 - (ForumTopic *) getForumTopicsByRow:(int)row;
-// direct HTTP call, no async. Call in separate thread via a block.
-- (NSArray *) loadRemoteJSONBoardData;
 
+
++ (void) loadPostsInBackground:(int)topicId completion:(void(^)(void))callback;
 
 - (int)numberOfPostsByTopic;
 - (ForumPost *) getForumPostsByRow:(int)row;
-// direct HTTP call, no async. Call in separate thread via a block.
-- (NSArray *) loadRemoteJSONTopicDataById:(int)topicId;
 
 @end

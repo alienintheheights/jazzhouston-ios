@@ -7,6 +7,7 @@
 //
 
 #import "ForumTopic.h"
+#import "UserManager.h"
 
 @implementation ForumTopic
 
@@ -15,13 +16,20 @@
 @synthesize author = _author;
 @synthesize postDate = _postDate;
 
+UserManager *userManager;
+
+
 
 -(id)initWithJSONData:(NSDictionary *)userData
 {
-	self = [super init];
+	
+	if (self = [super init]) {
+		userManager = [UserManager userManagerInstance];
+	}
+
 	if (self)
 	{
-		self.user = [[User alloc] initWithJSONData:[userData objectForKey:@"user"]];
+		self.user = [userManager fetchUserFromJSONData:[userData objectForKey:@"user"]];
 		self.title = [userData objectForKey:@"title"];
 		self.author = [userData objectForKey:@"author"];
 		self.topicId = [[userData objectForKey:@"thread_id"] intValue];

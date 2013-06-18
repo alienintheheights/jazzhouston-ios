@@ -18,12 +18,12 @@
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *username;
-@property (nonatomic, strong) NSData *avatarData;
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
+@property (nonatomic, strong) UIImage *imageData;
 
--(id)initWithJSONData:(NSDictionary *)userData;
-// will bypass HTTP and re-use object's local value if set
--(NSData *) fetchUserImageDataOverHTTP;
++(id)fetchUserImageDataOverHTTP:(NSString *)userData;
+
+-(void)loadImageData:(void(^)(void))callback;
 
 @end

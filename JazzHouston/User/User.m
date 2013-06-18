@@ -7,20 +7,23 @@
 //
 
 #import "User.h"
+#import "RoundedUIImage.h"
 
-@interface User()
-@end
+
 
 @implementation User
 
+
 #define JH_USER_AVATAR_URL @"http://jazzhouston.com/user/image/"
 #define JH_USER_AVATAR_URL_SUBPATH @"/avatar/"
+#define DEFAULT_IMAGE [UIImage imageNamed:@"forum-icon-blue.png"]
 
 
 @synthesize userData = _userData;
 @synthesize imageURLPath = _imageURLPath;
 @synthesize imageFullURLPath = _imageFullURLPath;
 @synthesize userId = _userId;
+@synthesize imageData = _imageData;
 
 @synthesize firstName = _firstName;
 @synthesize lastName = _lastName;
@@ -28,34 +31,19 @@
 @synthesize email = _email;
 @synthesize url = _url;
 @synthesize username = _username;
-@synthesize avatarData = _avatarData;
 
-
+/**
+Convenience function for fullName
+ **/
 -(NSString *) fullName
 {
 	return [self.firstName stringByAppendingString:[@" " stringByAppendingString:self.lastName] ];
 	
 }
 
--(id)initWithJSONData:(NSDictionary *)userData
-{
-	self = [super init];
-	if (self)
-	{
-		self.userData = userData;
-		self.firstName = [userData objectForKey:@"first_name"];
-		self.userId = [[userData objectForKey:@"user_id"] intValue];
-		self.lastName = [userData objectForKey:@"last_name"];
-		self.email = [userData objectForKey:@"email"];
-		self.url = [userData objectForKey:@"url"];
-		self.username = [userData objectForKey:@"username"];
-		self.imageFullURLPath = [self.userData objectForKey:@"image"];
-		self.imageURLPath = nil;
-	}
-	return self;
-	
-}
-
+/**
+ Parses the imageURLPath from the JSON object.
+ **/
 -(NSString *)imageURLPath
 {
 	if (!self.userData) return nil;
@@ -68,44 +56,71 @@
 			NSString *imageFileName = [userAvatarImagePath lastPathComponent];
 			NSArray *anArray = [NSArray arrayWithObjects:JH_USER_AVATAR_URL, [NSString stringWithFormat:@"%d", self.userId], JH_USER_AVATAR_URL_SUBPATH, imageFileName, nil];
 			NSString *imagePath = [anArray componentsJoinedByString:@""];
-			NSLog(@"Loading image %@", imagePath);
-			_imageURLPath = imagePath;
+		    _imageURLPath = imagePath;
 		}
 	}
 	return _imageURLPath;
 	
 }
 
+
 /**
- Synchronized Request to get Image Data
+ Loads imageData over REST
+ Uses a callback
+ **/
+-(void)loadImageData:(void(^)(void))callback {
+	
+	if (self.imageData)
+	{
+	    NSLog(@"cache hit with avatar data %@ %@", self.fullName, self.imageURLPath);
+		callback();
+		return;
+	}
+	
+	NSString *userAvatarImagePath = self.imageURLPath;
+	if (!userAvatarImagePath) {
+		self.imageData = DEFAULT_IMAGE;
+		callback();
+		return;
+	}
+	// TODO: cache image if already loaded: use a property in User to store imageData!
+	// launch async callback for image, if needed
+	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston user avatar", NULL);
+	dispatch_async(downloadQueue, ^{
+		NSData *imageData = [User fetchUserImageDataOverHTTP:self.imageURLPath];
+		if (imageData != (id)[NSNull null]) {
+			self.imageData = [RoundedUIImage imageWithRoundedCornersSize:10 usingImage:[UIImage imageWithData:imageData]];
+			 NSLog(@"cache write with avatar data %@ %@", self.fullName, self.imageURLPath);
+			dispatch_async(dispatch_get_main_queue(), callback);
+		}
+	});
+	
+}
+
+
+/**
+ Synchronized Static Request to get Image Data
  */
--(NSData *)fetchUserImageDataOverHTTP
++(NSData *)fetchUserImageDataOverHTTP:(NSString *)imageURLPath
 {
-	if (self.imageURLPath == nil)
+	if (imageURLPath == nil)
 	{
 		return nil;
 	}
-	
-	if (self.avatarData)
-	{
-		NSLog(@"cache hit with avatar data");
-		return self.avatarData;
-	
-	}
 		
     // Create the request.
-	NSLog(@"Requesting Image Data over HTTP for %@", self.imageURLPath);
-    NSURLRequest *urlRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:self.imageURLPath] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.0];
+	//NSLog(@"Requesting Image Data over HTTP for %@", self.imageURLPath);
+    NSURLRequest *urlRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:imageURLPath] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.0];
 	NSError        *error = nil;
 	NSURLResponse  *response = nil;
 	
 	NSData *data =[NSURLConnection sendSynchronousRequest:urlRequest returningResponse: &response error: &error];
-	NSLog(@"Receiving Image Data for %@", self.imageURLPath);
+	//NSLog(@"Receiving Image Data for %@", self.imageURLPath);
 	if (error)
 	{
-		NSLog(@"Error receiving Image Data %@: %@", self.imageURLPath, error);
+		NSLog(@"Error receiving Image Data %@: %@", imageURLPath, error);
+		return nil;
 	}
-	self.avatarData = data;
 	return data;
 }
 

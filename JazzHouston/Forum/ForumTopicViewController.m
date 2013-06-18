@@ -13,6 +13,7 @@
 #import "ForumPostTableViewCell.h"
 #import "User.h"
 #import "NSString+stripHTML.h"
+#import "RoundedUIImage.h"
 
 
 @interface ForumTopicViewController ()
@@ -33,10 +34,9 @@ NSMutableDictionary *_sizeArray;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	NSLog(@"initWithCoder");
 	if ((self = [super initWithCoder:aDecoder])) {
 		
-        self.forumDataController = [[ForumDataController alloc] init];
+        self.forumDataController = [ForumDataController forumDataControllerInstance];
 		_sizeArray = [[NSMutableDictionary alloc] init];
 
     }
@@ -57,34 +57,22 @@ NSMutableDictionary *_sizeArray;
 
 - (void)viewDidLoad
 {
-    NSLog(@"starting topic %d viewDidLoad", self.topicId);
     [super viewDidLoad];
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
-										initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	spinner.center = CGPointMake(160, 240);
-	spinner.hidesWhenStopped = YES;
-	[self.view addSubview:spinner];
-	[spinner startAnimating];
 	
-	// The Beauty of THREADING!!
-	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston forum message", NULL);
-	dispatch_async(downloadQueue, ^{
-		[self.forumDataController loadRemoteJSONTopicDataById:self.topicId];
+
+	[ForumDataController loadPostsInBackground:self.topicId completion:^{
+		for (int row = 0; row <[self.forumDataController numberOfPostsByTopic]; row++)
+		{
+			ForumPost *forumPost = [self.forumDataController getForumPostsByRow:row];
+			CGSize constraintSize = CGSizeMake(300, 2000.0f);
+			CGSize labelSize = [forumPost.messageBody sizeWithFont:[UIFont systemFontOfSize:13]
+												 constrainedToSize:constraintSize lineBreakMode:NSLineBreakByWordWrapping];			
+			[_sizeArray setObject:[NSNumber numberWithInt:labelSize.height+80] forKey:[NSString stringWithFormat:@"%d", row]];
+		}
+		[self.tableView reloadData];
 		
-		dispatch_async(dispatch_get_main_queue(), ^{
-			for (int row = 0; row <[self.forumDataController numberOfPostsByTopic]; row++)
-			{
-					ForumPost *forumPost = [self.forumDataController getForumPostsByRow:row];
-					CGSize constraintSize = CGSizeMake(300, 2000.0f);
-					CGSize labelSize = [forumPost.messageBody sizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
-					NSLog(@"%@", forumPost.messageBody);
-		
-					[_sizeArray setObject:[NSNumber numberWithInt:labelSize.height+50] forKey:[NSString stringWithFormat:@"%d", row]];
-			}
-			[spinner stopAnimating];
-			[self.tableView reloadData];
-		});
-	});
+    }];
+
 
 	
 }
@@ -101,8 +89,8 @@ NSMutableDictionary *_sizeArray;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"starting cellForRowAtIndexPath");
-	static NSString *cellIdentifier = @"ForumTopicViewCell";
+	
+    static NSString *cellIdentifier = @"ForumTopicViewCell";
 	ForumPostTableViewCell *cell;
 	cell = (ForumPostTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (!cell) {
@@ -141,31 +129,18 @@ NSMutableDictionary *_sizeArray;
 	//size the webview
 	CGFloat rightMargin = 10.f;
     CGSize constraintSize = CGSizeMake(300.0f - rightMargin, 2000.0f);
-    CGSize labelSize = [forumPost.messageBody sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelSize = [forumPost.messageBody sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:constraintSize ];
 	forumPost.messageBody = [forumPost.messageBody stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br>"];
 	
 	[_sizeArray setObject:[NSNumber numberWithInt:labelSize.height] forKey:[NSString stringWithFormat:@"%d", indexPath.row]];
 	[cell.messageBodyWebView loadHTMLString:forumPost.messageBody  baseURL:nil];
+	cell.messageBodyWebView.scrollView.scrollEnabled = NO;
+	cell.messageBodyWebView.scrollView.bounces = NO;
 	
-	// launch async callback for image, if needed
-	NSString *userAvatarImagePath = currentUser.imageURLPath;
-	if (!userAvatarImagePath) {
-		UIImage *theImage = [UIImage imageNamed:@"forum-icon-blue.png"];
-		cell.thumbnailImageView.image = theImage;
-		return cell;
-	}
-	
-	// TODO: cache image if already loaded: use a property in User to store imageData!
-	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston user avatar", NULL);
-	dispatch_async(downloadQueue, ^{
-		NSData *imageData = [currentUser fetchUserImageDataOverHTTP];
-		if (imageData != (id)[NSNull null]) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				NSLog(@"building image view from avatar callback %@", currentUser.firstName);								
-				cell.thumbnailImageView.image = [UIImage imageWithData:imageData];
-			});
-		}
-	});	
+	[currentUser loadImageData:^{
+		cell.thumbnailImageView.image = currentUser.imageData;
+	}];
+
 	return cell;
 
 }
@@ -180,58 +155,14 @@ NSMutableDictionary *_sizeArray;
 	height += JH_FORUM_MESSAGE_BODY_OFFSET;
 	return height;
 }
-/**
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+/**- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+	
+		
+}**/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
 
 
 @end

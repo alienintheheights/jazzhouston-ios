@@ -13,6 +13,7 @@
 #import "ForumTopic.h"
 #import "User.h"
 #import "ForumTopicTableViewCell.h"
+#import "RoundedUIImage.h"
 
 @interface ForumIndexTableViewController ()
 
@@ -22,28 +23,28 @@
 
 @implementation ForumIndexTableViewController
 
-@synthesize forumDataController = _forumData;
+@synthesize forumDataController = _forumDataController;
 @synthesize boardId = _boardId;
+
+int PAGE_NUM = 1;
 
 -(void)awakeFromNib
 {
-	 self.forumDataController = [[ForumDataController alloc] init];	
+	 self.forumDataController = [ForumDataController forumDataControllerInstance];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	//NSLog(@"initWithCoder");
+	NSLog(@"initWithCoder");
 	if ((self = [super initWithCoder:aDecoder])) {
 		
-        self.forumDataController = [[ForumDataController alloc] init];		
-    }
-	
+        self.forumDataController = [ForumDataController forumDataControllerInstance];
+    }	
     return self;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	//NSLog(@"starting cellForRowAtIndexPath");
 	static NSString *cellIdentifier = @"ForumTopicTableViewCell";
 	ForumTopicTableViewCell *cell;
 	cell = (ForumTopicTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -51,9 +52,11 @@
 	{
 		cell = [[ForumTopicTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
+	cell.titleLabel.text = @"";
+	cell.authorLabel.text = @"";
 	
 	// TODO: handle case where returned data is empty (i.e., erase the "loading data" message)
-	if ([self.forumDataController numberOfTopicsByBoard]==0)
+	if ([self.forumDataController numberOfTopics]==0)
 	{
 		return cell;
 	} 
@@ -65,34 +68,19 @@
 	// draw text into row
 	cell.titleLabel.text = forumPost.title;
 	cell.authorLabel.text = currentUser.fullName;
+	
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"MM/dd/yyyy HH:mm a"];
 	NSString *dateString = [dateFormat stringFromDate:forumPost.postDate];
 	cell.lastPostLabel.text = dateString;
+	
 	cell.numberOfPostsLabel.text = [NSString stringWithFormat:@"%d",forumPost.numberOfPosts - 1];
 	
+	[currentUser loadImageData:^{
+		cell.thumbnailImageView.image = currentUser.imageData;
+	}];
 	
-	NSString *userAvatarImagePath = currentUser.imageURLPath;
-	if (!userAvatarImagePath) {
-		UIImage *theImage = [UIImage imageNamed:@"forum-icon-blue.png"];
-		cell.thumbnailImageView.image = theImage;
-		return cell;
-	}
-	// TODO: cache image if already loaded: use a property in User to store imageData!
-	// launch async callback for image, if needed
-	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston user avatar", NULL);
-	dispatch_async(downloadQueue, ^{
-		NSData *imageData = [currentUser fetchUserImageDataOverHTTP];
-		if (imageData != (id)[NSNull null]) {
-			dispatch_async(dispatch_get_main_queue(), ^{
-				//NSLog(@"building image view from avatar callback %@", currentUser.firstName);
-				//make an image view for the image
-				cell.thumbnailImageView.image = [UIImage imageWithData:imageData];
-				
-			});
-		}
-	});
-	
+		
 	
 	return cell;
 }
@@ -105,39 +93,36 @@
     }
 }
 
+- (void)refreshSelector:(UIButton*)sender{
+	// reset data and start from the top
+	PAGE_NUM = 1; //reset count
+	[self loadInBackground:PAGE_NUM andAppend:false];
+}
+
 - (void)viewDidLoad
 {
-	NSLog(@"starting viewDidLoad");
-    [super viewDidLoad];
-	
-	
+	[super viewDidLoad];	
 	// add pull-to-refresh control
-	UIRefreshControl *refreshControl = [[UIRefreshControl alloc]
-										init];
-	[refreshControl addTarget:self action:@selector(loadInBackground) forControlEvents:UIControlEventValueChanged];
+	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	[refreshControl addTarget:self action:@selector(refreshSelector:) forControlEvents:UIControlEventValueChanged];
     
-	refreshControl.tintColor = [UIColor magentaColor];
+	refreshControl.tintColor = [UIColor blueColor];
 	self.refreshControl = refreshControl;
 	 
-	// TODO: add pagination param
-	[self loadInBackground];
+	[self loadInBackground:PAGE_NUM andAppend:false];
+	self.tableView.rowHeight = 120;
 }
 
 
-// TODO: add pagination support
-- (void)loadInBackground
+- (void)loadInBackground:(int)pageNum andAppend:(BOOL)append
 {
-	
-	// The Beauty of THREADING!!
-	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston forum topics", NULL);
-	dispatch_async(downloadQueue, ^{
-		[self.forumDataController loadRemoteJSONBoardData];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self.tableView reloadData];
-			[self.refreshControl endRefreshing];
-
-		});
-	});
+	if (!pageNum)
+		pageNum = 1;
+		
+	[ForumDataController loadTopicsInBackground:pageNum andAppend:append completion:^{
+		[self.tableView reloadData];
+		[self.refreshControl endRefreshing];
+    }];
 
 }
 
@@ -160,14 +145,12 @@
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender	
 {
 	// sender is the tableview cell
-	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];	
-	NSLog(@"I am preparing for segue with %@", indexPath);
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 	if ([segue.identifier isEqualToString:@"ForumTopics"])
 	{
 		ForumTopic *forumTopic = [self.forumDataController getForumTopicsByRow:indexPath.row];
 		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
 		forumTopicVC.topicId = forumTopic.topicId;
-		NSLog(@"I am switching to forum Topics vc %@", forumTopic.title);
 	}
 }
 
@@ -185,49 +168,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int rows = [self.forumDataController numberOfTopicsByBoard];
+	int rows = [self.forumDataController numberOfTopics];
 	return (rows > 0) ?  rows : 1; // faulty logic, rows = 0 too
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	
+	
+	NSInteger currentOffset = scrollView.contentOffset.y;
+	NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+	
+	
+	if (maximumOffset - currentOffset <= -40) {
+		// TODO: add loading image/animation
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+		[self loadInBackground:++PAGE_NUM andAppend:true];
+	}
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
