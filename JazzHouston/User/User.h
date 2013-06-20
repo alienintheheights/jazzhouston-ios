@@ -8,7 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSObject 
+@interface User : NSObject
+
+
+
+#define JH_USER_AVATAR_URL @"/user/image/"
+#define JH_USER_AVATAR_URL_SUBPATH @"/avatar/"
+#define DEFAULT_IMAGE [UIImage imageNamed:@"forum-icon-blue.png"]
+
 
 @property (nonatomic, strong) NSDictionary *userData;
 @property (nonatomic, strong) NSString *imageURLPath;

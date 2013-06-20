@@ -7,14 +7,14 @@
 //
 
 #import "NSString+stripHTML.h"
-@interface NSString_stripHTML_XMLParsee : NSObject<NSXMLParserDelegate> {
+@interface NSString_StripHTML_XMLParsee : NSObject<NSXMLParserDelegate> {
 @private
     NSMutableArray* strings;
 }
 - (NSString*)getCharsFound;
 @end
 
-@implementation NSString_stripHTML_XMLParsee
+@implementation NSString_StripHTML_XMLParsee
 - (id)init {
     if((self = [super init])) {
         strings = [[NSMutableArray alloc] init];
@@ -42,7 +42,7 @@
     NSXMLParser* parser = [[NSXMLParser alloc] initWithData:data];
     
     // parse the content keeping track of any chars found outside tags (this will be the stripped content)
-    NSString_stripHTML_XMLParsee* parsee = [[NSString_stripHTML_XMLParsee alloc] init];
+    NSString_StripHTML_XMLParsee* parsee = [[NSString_StripHTML_XMLParsee alloc] init];
     parser.delegate = parsee;
     [parser parse];
     

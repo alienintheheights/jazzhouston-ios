@@ -15,7 +15,7 @@
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSString *author;
 @property (nonatomic, strong) NSString *messageBody;
-@property (nonatomic, strong) NSDate *postDate;
+@property (nonatomic, strong) NSString *postDate;
 @property (nonatomic) int topicId;
 @property (nonatomic) int rating;
 

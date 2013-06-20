@@ -61,7 +61,7 @@ static NSMutableDictionary *_userCache;
 	cachedUser.imageURLPath = nil;
 	
 	// cache
-	[_userCache setObject:cachedUser forKey:userId];
+	//[_userCache setObject:cachedUser forKey:userId];
 	
 	return cachedUser;
 }

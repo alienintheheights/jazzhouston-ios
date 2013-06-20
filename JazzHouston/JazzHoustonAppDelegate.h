@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ForumEngine.h"
 
 @interface JazzHoustonAppDelegate : UIResponder <UIApplicationDelegate>
 
+
+#define ApplicationDelegate ((JazzHoustonAppDelegate *)[UIApplication sharedApplication].delegate)
+
+
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) ForumEngine *forumEngine;
 
 @end

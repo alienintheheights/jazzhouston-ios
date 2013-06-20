@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ForumTopic.h"
 
 @interface ForumTopicTableViewCell : UITableViewCell
 
@@ -15,5 +16,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *lastPostLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfPostsLabel;
+
+-(void) setCellData:(NSDictionary *) thisForumRow;
+-(int)fetchTopicId:(NSDictionary *)forumTopicData;
 
 @end

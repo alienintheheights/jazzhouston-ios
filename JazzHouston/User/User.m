@@ -14,11 +14,6 @@
 @implementation User
 
 
-#define JH_USER_AVATAR_URL @"http://jazzhouston.com/user/image/"
-#define JH_USER_AVATAR_URL_SUBPATH @"/avatar/"
-#define DEFAULT_IMAGE [UIImage imageNamed:@"forum-icon-blue.png"]
-
-
 @synthesize userData = _userData;
 @synthesize imageURLPath = _imageURLPath;
 @synthesize imageFullURLPath = _imageFullURLPath;

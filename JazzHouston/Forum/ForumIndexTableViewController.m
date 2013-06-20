@@ -6,42 +6,75 @@
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
+#import "JazzHoustonAppDelegate.h"
 #import "ForumIndexTableViewController.h"
 #import "ForumTopicViewController.h"
-#import "AsyncImageView.h"
-#import "ForumDataController.h"
-#import "ForumTopic.h"
-#import "User.h"
 #import "ForumTopicTableViewCell.h"
-#import "RoundedUIImage.h"
+#import "ForumTopic.h"
 
 @interface ForumIndexTableViewController ()
 
-@property (nonatomic, strong) ForumDataController *forumDataController;
+@property (nonatomic) int pageNumber;
 
 @end
 
 @implementation ForumIndexTableViewController
 
-@synthesize forumDataController = _forumDataController;
+@synthesize pageNumber = _pageNumber;
 @synthesize boardId = _boardId;
 
-int PAGE_NUM = 1;
-
--(void)awakeFromNib
-{
-	 self.forumDataController = [ForumDataController forumDataControllerInstance];
-}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	NSLog(@"initWithCoder");
 	if ((self = [super initWithCoder:aDecoder])) {
-		
-        self.forumDataController = [ForumDataController forumDataControllerInstance];
-    }	
-    return self;
+		self.pageNumber=1;
+	}
+	return self;
 }
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[ApplicationDelegate.forumEngine fetchRemoteTopics:self.pageNumber
+				completionHandler:^(NSMutableArray* jsonForumPosts) {
+					// loop over hash elements to create array...
+					self.forumTopics = [[NSMutableArray alloc] initWithArray:jsonForumPosts];
+					[self.tableView reloadData];  
+					
+				}
+				errorHandler:^(NSError* error) {
+					 //TODO: implement
+				}
+	 ];
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -52,36 +85,10 @@ int PAGE_NUM = 1;
 	{
 		cell = [[ForumTopicTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
-	cell.titleLabel.text = @"";
-	cell.authorLabel.text = @"";
+	NSDictionary *thisForumPost = (self.forumTopics)[indexPath.row];
 	
-	// TODO: handle case where returned data is empty (i.e., erase the "loading data" message)
-	if ([self.forumDataController numberOfTopics]==0)
-	{
-		return cell;
-	} 
-	
-	// extract data for this row
-	ForumTopic *forumPost = [self.forumDataController getForumTopicsByRow:indexPath.row];
-	User *currentUser = forumPost.user;
-		
-	// draw text into row
-	cell.titleLabel.text = forumPost.title;
-	cell.authorLabel.text = currentUser.fullName;
-	
-	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-	[dateFormat setDateFormat:@"MM/dd/yyyy HH:mm a"];
-	NSString *dateString = [dateFormat stringFromDate:forumPost.postDate];
-	cell.lastPostLabel.text = dateString;
-	
-	cell.numberOfPostsLabel.text = [NSString stringWithFormat:@"%d",forumPost.numberOfPosts - 1];
-	
-	[currentUser loadImageData:^{
-		cell.thumbnailImageView.image = currentUser.imageData;
-	}];
-	
-		
-	
+    // code from Stanford Tutorial
+    [cell setCellData:thisForumPost];
 	return cell;
 }
 
@@ -95,34 +102,42 @@ int PAGE_NUM = 1;
 
 - (void)refreshSelector:(UIButton*)sender{
 	// reset data and start from the top
-	PAGE_NUM = 1; //reset count
-	[self loadInBackground:PAGE_NUM andAppend:false];
+	self.pageNumber = 1; //reset count
+	[self loadInBackground:1 andAppend:NO];
 }
 
 - (void)viewDidLoad
 {
-	[super viewDidLoad];	
+	[super viewDidLoad];
 	// add pull-to-refresh control
 	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
 	[refreshControl addTarget:self action:@selector(refreshSelector:) forControlEvents:UIControlEventValueChanged];
     
 	refreshControl.tintColor = [UIColor blueColor];
 	self.refreshControl = refreshControl;
-	 
-	[self loadInBackground:PAGE_NUM andAppend:false];
 	self.tableView.rowHeight = 120;
 }
 
 
 - (void)loadInBackground:(int)pageNum andAppend:(BOOL)append
 {
-	if (!pageNum)
-		pageNum = 1;
 		
-	[ForumDataController loadTopicsInBackground:pageNum andAppend:append completion:^{
-		[self.tableView reloadData];
-		[self.refreshControl endRefreshing];
-    }];
+	[ApplicationDelegate.forumEngine
+				fetchRemoteTopics:pageNum
+				 completionHandler:^(NSMutableArray* jsonForumPosts) {
+					 // loop over hash elements to create array...
+					 if (!append) {
+						 self.forumTopics = [[NSMutableArray alloc] init]; // let ARC clean it up
+					 }
+					 [self.forumTopics addObjectsFromArray:jsonForumPosts];
+					 [self.refreshControl endRefreshing];
+					 [self.tableView reloadData]; 
+					 
+				 }
+				 errorHandler:^(NSError* error) {
+					  //TODO: implement
+				 }
+	 ];
 
 }
 
@@ -135,11 +150,6 @@ int PAGE_NUM = 1;
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
-
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender	
@@ -148,19 +158,10 @@ int PAGE_NUM = 1;
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 	if ([segue.identifier isEqualToString:@"ForumTopics"])
 	{
-		ForumTopic *forumTopic = [self.forumDataController getForumTopicsByRow:indexPath.row];
 		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
-		forumTopicVC.topicId = forumTopic.topicId;
+		forumTopicVC.topicId = [sender fetchTopicId:(self.forumTopics)[indexPath.row]];
+	
 	}
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 
@@ -168,8 +169,7 @@ int PAGE_NUM = 1;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int rows = [self.forumDataController numberOfTopics];
-	return (rows > 0) ?  rows : 1; // faulty logic, rows = 0 too
+	 return [self.forumTopics count];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -182,7 +182,7 @@ int PAGE_NUM = 1;
 	if (maximumOffset - currentOffset <= -40) {
 		// TODO: add loading image/animation
 
-		[self loadInBackground:++PAGE_NUM andAppend:true];
+		[self loadInBackground:++self.pageNumber andAppend:true];
 	}
 }
 

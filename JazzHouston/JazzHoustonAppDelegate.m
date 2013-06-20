@@ -17,11 +17,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+	self.forumEngine = [[ForumEngine alloc] initWithHostName:@"jazzhouston.com"];
+	[self.forumEngine useCache];
+	// using categorized UIImageView from MKNetworkKit
+	[UIImageView setDefaultEngine:self.forumEngine];
 	
-
 	
-	
-        return YES;
+	return YES;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

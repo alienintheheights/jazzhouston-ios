@@ -20,6 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 
 
-#define JH_FORUM_MESSAGE_BODY_OFFSET 80
+-(void) setCellData:(NSDictionary *) forumTopicData;
 
 @end

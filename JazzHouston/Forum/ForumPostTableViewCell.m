@@ -7,6 +7,7 @@
 //
 
 #import "ForumPostTableViewCell.h"
+#import "ForumPost.h"
 
 @implementation ForumPostTableViewCell
 
@@ -37,6 +38,36 @@
     }
     return self;
 }
+
+
+-(void) setCellData:(NSDictionary *) forumTopicData {
+	
+	ForumPost *forumPost = [[ForumPost alloc] initWithJSONData:forumTopicData];
+	User *currentUser = forumPost.user;
+	
+	
+	// draw text into row
+	self.fullName.text = currentUser.fullName;
+	
+	if (forumPost.rating != 0) {
+		if (forumPost.rating>0)
+			self.likeCount.text = [NSString stringWithFormat:@"+%d", forumPost.rating];
+		else
+			self.likeCount.text = [NSString stringWithFormat:@"%d", forumPost.rating];
+	}
+	
+	self.postDate.text = forumPost.postDate;
+	
+	forumPost.messageBody = [forumPost.messageBody stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br>"];
+	
+	[self.messageBodyWebView loadHTMLString:forumPost.messageBody  baseURL:nil];
+	self.messageBodyWebView.scrollView.scrollEnabled = NO;
+	self.messageBodyWebView.scrollView.bounces = NO;
+		
+	NSString *imagePath = [NSString stringWithFormat:@"http://jazzhouston.com/%@", currentUser.imageURLPath];
+	[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:DEFAULT_IMAGE];
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

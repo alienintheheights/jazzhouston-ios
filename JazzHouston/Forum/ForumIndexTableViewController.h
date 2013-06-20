@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSString *boardId;
 
+@property (strong, nonatomic) NSMutableArray *forumTopics;
+
 @end

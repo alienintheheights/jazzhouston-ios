@@ -12,5 +12,7 @@
 
 @property (nonatomic) int topicId;
 
+@property (strong, nonatomic) NSMutableArray *topicPosts;
+
 
 @end

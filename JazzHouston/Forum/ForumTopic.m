@@ -8,6 +8,7 @@
 
 #import "ForumTopic.h"
 #import "UserManager.h"
+#import "DateTimeUtil.h"
 
 @implementation ForumTopic
 
@@ -20,31 +21,25 @@ UserManager *userManager;
 
 
 
--(id)initWithJSONData:(NSDictionary *)userData
+-(id)initWithJSONData:(NSDictionary *)currentRow
 {
 	
 	if (self = [super init]) {
 		userManager = [UserManager userManagerInstance];
 	}
-
-	if (self)
-	{
-		self.user = [userManager fetchUserFromJSONData:[userData objectForKey:@"user"]];
-		self.title = [userData objectForKey:@"title"];
-		self.author = [userData objectForKey:@"author"];
-		self.topicId = [[userData objectForKey:@"thread_id"] intValue];
-		self.numberOfPosts = [[userData objectForKey:@"post_count"] intValue];
+	NSDictionary *userData = [currentRow objectForKey:@"topic"];
+	self.user = [userManager fetchUserFromJSONData:[userData objectForKey:@"user"]];
+	self.title = [userData objectForKey:@"title"];
+	self.author = [userData objectForKey:@"author"];
+	self.topicId = [[userData objectForKey:@"thread_id"] intValue];
+	self.numberOfPosts = [[userData objectForKey:@"post_count"] intValue];
+		
+	NSString *pdate = [userData objectForKey:@"modified_date"];
+	self.postDate = [DateTimeUtil dateInWords:pdate];
 	
-		NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-		//2013-03-06T11:50:27-06:00
-		NSString *pdate = [userData objectForKey:@"modified_date"];
-		[dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
-		NSDate *date = [dateFormat dateFromString:pdate];
-		self.postDate = date;
-
-	}
 	return self;
 	
 }
+
 
 @end

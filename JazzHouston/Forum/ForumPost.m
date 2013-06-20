@@ -8,6 +8,7 @@
 
 #import "ForumPost.h"
 #import "UserManager.h"
+#import "DateTimeUtil.h"
 
 @implementation ForumPost
 
@@ -21,12 +22,13 @@
 UserManager *userManager;
 
 
--(id)initWithJSONData:(NSDictionary *)userData
+-(id)initWithJSONData:(NSDictionary *)currentRow
 {
 	
 	if (self = [super init]) {
 		userManager = [UserManager userManagerInstance];
 	}
+	NSDictionary *userData = [currentRow objectForKey:@"post"];
 
 
 	self.user = [userManager fetchUserFromJSONData:[userData objectForKey:@"user"]];
@@ -35,13 +37,11 @@ UserManager *userManager;
 	self.topicId = [[userData objectForKey:@"thread_id"] intValue];
 	self.rating = [[userData objectForKey:@"rating"] intValue];
 
-	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-	//2013-03-06T11:50:27-06:00
+	
 	NSString *pdate = [userData objectForKey:@"pdate"];
-	[dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
-	NSDate *date = [dateFormat dateFromString:pdate];
-	self.postDate = date;
-
+	self.postDate = [DateTimeUtil dateInWords:pdate];
+	
+	
 	
 	return self;
 	
