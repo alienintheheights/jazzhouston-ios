@@ -47,10 +47,21 @@
     [super didReceiveMemoryWarning];
 }
 
+
+#pragma mark - Table view
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 }
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	//[self.parentViewController ];
+	NSLog(@"View will disappear, child");
+}
+
 
 /**
  Turns on loading spinner
@@ -69,7 +80,7 @@
 	[ApplicationDelegate.forumEngine
 					 fetchRemotePostsByTopicId:self.topicId
 								 forPageNumber:self.pageNumber
-					         completionHandler:^(NSMutableArray* jsonForumPosts) {
+					         completionHandler:^(NSMutableArray* jsonForumPosts, BOOL isCached) {
 								
 								 self.topicPosts = [[NSMutableArray alloc] initWithArray:jsonForumPosts];
 								 self.sizeDict = [[NSMutableDictionary alloc] init];
@@ -117,14 +128,11 @@
 	ForumPostTableViewCell *cell;
 	cell = (ForumPostTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (!cell) {
-		return [[ForumPostTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+		cell = [[ForumPostTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
-	if ([self.topicPosts count] == 0) {
-		cell.postDate.text=@"";
-		cell.authorLabel.text=@"";
-        cell.fullName.text=@"Loading Post....";
-        return cell;
-    }
+	NSLog(@"Current Row %d", indexPath.row);
+
+	
 	NSDictionary *thisForumPost = (self.topicPosts)[indexPath.row];
 	
     [cell setCellData:thisForumPost];
@@ -135,9 +143,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if ([self.topicPosts count] == 0) {
-		return 1; // a single cell to report no data
-    }
 	return [self.topicPosts count];
 	
 }

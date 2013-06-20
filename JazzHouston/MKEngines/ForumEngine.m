@@ -17,6 +17,7 @@
 @implementation ForumEngine
 
 -(void) fetchRemoteTopics:(int)pageNumber
+		  withForceReload:(BOOL)forceReload
 		completionHandler:(ForumTopicsResponseBlock)forumCellBlock
 			 errorHandler:(MKNKErrorBlock)errorBlock {
 		
@@ -28,7 +29,7 @@
 		[op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
 			
 			[completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
-				forumCellBlock(jsonObject);
+				forumCellBlock(jsonObject, [completedOperation isCachedResponse]);
 			}];
 			
 		} errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
@@ -36,7 +37,7 @@
 			errorBlock(error);
 		}];
 		
-		[self enqueueOperation:op];	
+		[self enqueueOperation:op forceReload:forceReload];
 	
 }
 
@@ -53,7 +54,7 @@
 	[op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
 		
 		[completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
-			topicCellBlock(jsonObject);
+			topicCellBlock(jsonObject, [completedOperation isCachedResponse]);
 		}];
 		
 	} errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {

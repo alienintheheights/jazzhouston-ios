@@ -47,10 +47,12 @@
 	self.lastPostLabel.text = forumTopic.postDate;
 	
 	self.numberOfPostsLabel.text = [NSString stringWithFormat:@"%d",forumTopic.numberOfPosts - 1];
-	
-	NSString *imagePath = [NSString stringWithFormat:@"http://jazzhouston.com/%@", currentUser.imageURLPath];
-	
-	[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:DEFAULT_IMAGE];
+	if (currentUser.imageURLPath) {
+		NSString *imagePath = [NSString stringWithFormat:@"http://jazzhouston.com/%@", currentUser.imageURLPath];
+		[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:nil];
+	} else {
+		[self.thumbnailImageView setImage:DEFAULT_IMAGE];
+	}
 }
 
 

@@ -29,8 +29,4 @@
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) UIImage *imageData;
 
-+(id)fetchUserImageDataOverHTTP:(NSString *)userData;
-
--(void)loadImageData:(void(^)(void))callback;
-
 @end

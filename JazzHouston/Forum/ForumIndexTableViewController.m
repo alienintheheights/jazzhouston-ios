@@ -14,6 +14,8 @@
 
 @interface ForumIndexTableViewController ()
 
+#define PER_PAGE 10
+
 @property (nonatomic) int pageNumber;
 
 @end
@@ -28,46 +30,24 @@
 {
 	if ((self = [super initWithCoder:aDecoder])) {
 		self.pageNumber=1;
+		self.forumTopics = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
-- (void)didReceiveMemoryWarning
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	// sender is the tableview cell
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+	if ([segue.identifier isEqualToString:@"ForumTopics"])
+		{
+		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
+		forumTopicVC.topicId = [sender fetchTopicId:(self.forumTopics)[indexPath.row]];
+		}
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[ApplicationDelegate.forumEngine fetchRemoteTopics:self.pageNumber
-				completionHandler:^(NSMutableArray* jsonForumPosts) {
-					// loop over hash elements to create array...
-					self.forumTopics = [[NSMutableArray alloc] initWithArray:jsonForumPosts];
-					[self.tableView reloadData];  
-					
-				}
-				errorHandler:^(NSError* error) {
-					 //TODO: implement
-				}
-	 ];
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -76,22 +56,111 @@
 }
 
 
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
+
+
+
+#pragma mark - Custom Load Methods
+
+- (void)refreshSelector:(UIButton*)sender{
+	// reset data and start from the top
+	[self loadInBackground:YES ];
+}
+
+/**
+ Launches MKNetworkKit delegate
+ Supports forced reload to skip cache and reset pageNumber
+ Also starts and stops spinner animation
+**/
+- (void)loadInBackground:(BOOL)forceReload
+{
+	// TODO: combine w/ topictableviewC into a method--perhaps a common parent Controller too?
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = CGPointMake(160, 60);
+    spinner.hidesWhenStopped = YES;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+	
+	
+	NSLog(@"attempting to fetch pageNumber %d", self.pageNumber);
+	// The MK completion handler fires twice if cached.
+	// We will know if it's a cached call via the param isCached
+	// We also have a local array of data and current page to think about it
+	[ApplicationDelegate.forumEngine
+			fetchRemoteTopics:(forceReload)? 1: self.pageNumber
+			  withForceReload:forceReload
+			completionHandler:^(NSMutableArray* jsonForumPosts, BOOL isCached) {
+				
+				// if force re-init the array, but watch out for the MK double-load annoyance!
+				if (forceReload && !isCached) {
+					self.forumTopics = [[NSMutableArray alloc] init]; // let ARC clean it up
+					if (self.pageNumber>1) self.pageNumber = 1; // reset
+				}
+				
+				 // if forumTopics array is missing that page's data, add it to the array
+				 //NSLog(@"current size of page %d is %d", self.pageNumber, [self.forumTopics count]);
+				 // Do we already have this page's data?
+				 if ([self.forumTopics count]<PER_PAGE*self.pageNumber) {
+					 [self.forumTopics addObjectsFromArray:jsonForumPosts];
+					 //NSLog(@"done fetching, about to reload with pageNumber %d", self.pageNumber);
+					 [self.tableView reloadData];
+					 self.pageNumber++; // enable next page
+				 }
+				 
+				 [self.refreshControl endRefreshing];
+				 [spinner stopAnimating];
+				  NSLog(@"Am I cached forum topic data? %@", isCached ? @"YES" : @"NO");
+				 
+			 }
+			 errorHandler:^(NSError* error) {
+				 //TODO: implement
+			 }];
+	
+}
+
+
+#pragma mark - Table view data source
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *cellIdentifier = @"ForumTopicTableViewCell";
 	ForumTopicTableViewCell *cell;
 	cell = (ForumTopicTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	if (!cell)
-	{
+	if (!cell) {
 		cell = [[ForumTopicTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 	NSDictionary *thisForumPost = (self.forumTopics)[indexPath.row];
 	
-    // code from Stanford Tutorial
     [cell setCellData:thisForumPost];
 	return cell;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [self.forumTopics count];
+}
+
+
+
+#pragma mark - Table view
+
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	NSInteger currentOffset = scrollView.contentOffset.y;
+	NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+	
+	
+	if (maximumOffset - currentOffset <= -40) {
+		// TODO: add loading image/animation
+		[self loadInBackground:false];
+	}
+}
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row%2 == 0) {
@@ -100,11 +169,23 @@
     }
 }
 
-- (void)refreshSelector:(UIButton*)sender{
-	// reset data and start from the top
-	self.pageNumber = 1; //reset count
-	[self loadInBackground:1 andAppend:NO];
+/**
+ Run at start-up or with the back button, so adjust responses accordingly
+ **/
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	// if page>1 we can assumer this is loading from the back button or other nav.
+	// in order to save our place, do not reload the page in this case
+	if (self.pageNumber > 1) {
+		return;
+	}
+	
+	[self loadInBackground:NO];
 }
+
+
 
 - (void)viewDidLoad
 {
@@ -119,29 +200,6 @@
 }
 
 
-- (void)loadInBackground:(int)pageNum andAppend:(BOOL)append
-{
-		
-	[ApplicationDelegate.forumEngine
-				fetchRemoteTopics:pageNum
-				 completionHandler:^(NSMutableArray* jsonForumPosts) {
-					 // loop over hash elements to create array...
-					 if (!append) {
-						 self.forumTopics = [[NSMutableArray alloc] init]; // let ARC clean it up
-					 }
-					 [self.forumTopics addObjectsFromArray:jsonForumPosts];
-					 [self.refreshControl endRefreshing];
-					 [self.tableView reloadData]; 
-					 
-				 }
-				 errorHandler:^(NSError* error) {
-					  //TODO: implement
-				 }
-	 ];
-
-}
-
-
 
 - (void)viewDidUnload
 {
@@ -151,51 +209,22 @@
 }
 
 
-
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender	
+- (void)viewWillDisappear:(BOOL)animated
 {
-	// sender is the tableview cell
-	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-	if ([segue.identifier isEqualToString:@"ForumTopics"])
-	{
-		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
-		forumTopicVC.topicId = [sender fetchTopicId:(self.forumTopics)[indexPath.row]];
-	
-	}
+    [super viewWillDisappear:animated];
+	NSLog(@"View will disappear, parent");
 }
 
-
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (void)viewDidDisappear:(BOOL)animated
 {
-	 return [self.forumTopics count];
+    [super viewDidDisappear:animated];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	
-	
-	NSInteger currentOffset = scrollView.contentOffset.y;
-	NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-	
-	
-	if (maximumOffset - currentOffset <= -40) {
-		// TODO: add loading image/animation
-
-		[self loadInBackground:++self.pageNumber andAppend:true];
-	}
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)viewWillAppear:(BOOL)animated
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [super viewWillAppear:animated];
 }
+
+
+
 @end

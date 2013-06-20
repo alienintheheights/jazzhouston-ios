@@ -18,8 +18,6 @@
 @synthesize thumbnailImageView = _thumbnailImageView;
 @synthesize likeCount = _likeCount;
 
-
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -50,23 +48,27 @@
 	self.fullName.text = currentUser.fullName;
 	
 	if (forumPost.rating != 0) {
-		if (forumPost.rating>0)
-			self.likeCount.text = [NSString stringWithFormat:@"+%d", forumPost.rating];
-		else
-			self.likeCount.text = [NSString stringWithFormat:@"%d", forumPost.rating];
+		self.likeCount.hidden = NO;
+		self.likeCount.text = (forumPost.rating>0) ? [NSString stringWithFormat:@"+%d", forumPost.rating] :
+															[NSString stringWithFormat:@"%d", forumPost.rating];
+	} else {
+		self.likeCount.hidden = YES;
 	}
-	
+	self.authorLabel.text = @"";
 	self.postDate.text = forumPost.postDate;
 	
 	forumPost.messageBody = [forumPost.messageBody stringByReplacingOccurrencesOfString:@"\r\n" withString:@"<br>"];
 	
-	[self.messageBodyWebView loadHTMLString:forumPost.messageBody  baseURL:nil];
+	[self.messageBodyWebView loadHTMLString:forumPost.messageBody baseURL:nil];
 	self.messageBodyWebView.scrollView.scrollEnabled = NO;
 	self.messageBodyWebView.scrollView.bounces = NO;
 		
-	NSString *imagePath = [NSString stringWithFormat:@"http://jazzhouston.com/%@", currentUser.imageURLPath];
-	[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:DEFAULT_IMAGE];
-}
+	if (currentUser.imageURLPath) {
+		NSString *imagePath = [NSString stringWithFormat:@"http://jazzhouston.com/%@", currentUser.imageURLPath];
+		[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:nil];
+	} else {
+		[self.thumbnailImageView setImage:DEFAULT_IMAGE];
+	}}
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

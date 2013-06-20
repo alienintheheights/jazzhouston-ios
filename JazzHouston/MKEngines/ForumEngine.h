@@ -11,10 +11,11 @@
 @interface ForumEngine : MKNetworkEngine
 
 
-typedef void (^ForumTopicsResponseBlock)(NSMutableArray* jsonTopics);
+typedef void (^ForumTopicsResponseBlock)(NSMutableArray* jsonTopics, BOOL isCached);
 
 
 -(void) fetchRemoteTopics:(int)pageNumber
+		  withForceReload:(BOOL)forceReload
 		completionHandler:(ForumTopicsResponseBlock)forumCellBlock
 			 errorHandler:(MKNKErrorBlock)errorBlock;
 
