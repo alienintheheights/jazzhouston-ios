@@ -255,7 +255,7 @@
                                             <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="TopLeft" text="Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" highlighted="YES" adjustsFontSizeToFit="NO" id="pMQ-d7-AXg">
-                                            <rect key="frame" x="93" y="16" width="195" height="32"/>
+                                            <rect key="frame" x="93" y="12" width="195" height="32"/>
                                             <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -348,7 +348,7 @@
                                             <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                                         </webView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="07Y-ud-gRR">
-                                            <rect key="frame" x="95" y="7" width="231" height="20"/>
+                                            <rect key="frame" x="95" y="4" width="231" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="19"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -405,10 +405,10 @@
             </objects>
             <point key="canvasLocation" x="-892" y="-154"/>
         </scene>
-        <!--Musician View Controller - Musicians-->
+        <!--Instrument View Controller - Instruments-->
         <scene sceneID="9B6-iF-uPd">
             <objects>
-                <tableViewController storyboardIdentifier="Musicians" id="x8g-XR-AWg" customClass="MusicianViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Instruments" id="x8g-XR-AWg" customClass="InstrumentViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="m6B-Ix-PmX">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -422,18 +422,31 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Mgx-ve-rb3">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InstrumentTableViewCell" id="Mgx-ve-rb3" customClass="InstrumentTableViewCell">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Instrument Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CkJ-JS-B6a">
+                                            <rect key="frame" x="31" y="11" width="140" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <outlet property="instrumentName" destination="CkJ-JS-B6a" id="Yvd-J4-niP"/>
+                                    <segue destination="LxA-BZ-vfs" kind="push" identifier="MusiciansByInstrument" id="eZ3-um-ZEQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Musicians" id="01b-7j-hVd"/>
+                    <navigationItem key="navigationItem" title="Instruments" id="0ca-eY-XkI"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="f0n-eH-5NS" id="q8B-AQ-wyj"/>
                     </connections>
@@ -474,6 +487,100 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtY-94-T55" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-892" y="467"/>
+        </scene>
+        <!--Musician View Controller - Musicians-->
+        <scene sceneID="7sV-n5-pf0">
+            <objects>
+                <tableViewController storyboardIdentifier="Musicians" id="LxA-BZ-vfs" customClass="MusicianViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="83" sectionHeaderHeight="22" sectionFooterHeight="22" id="iq2-lC-kHm">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="qtQ-Q8-Nzn">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="LxA-BZ-vfs" id="7l2-vK-g6g"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MusicianListingTableViewCell" rowHeight="83" id="8eS-GW-UcJ" customClass="MusicianTableViewCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="83"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="82"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="h9e-gR-meM">
+                                            <rect key="frame" x="0.0" y="2" width="80" height="80"/>
+                                            <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="TopLeft" text="MusicianName" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" highlighted="YES" adjustsFontSizeToFit="NO" id="FHh-ak-u95">
+                                            <rect key="frame" x="88" y="0.0" width="195" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <size key="shadowOffset" width="0.0" height="0.0"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" contentMode="left" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fvq-yt-8Xr">
+                                            <rect key="frame" x="88" y="30" width="100" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" none="YES" link="YES" staticText="YES"/>
+                                            </accessibility>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" contentMode="left" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fM5-BO-Lpf">
+                                            <rect key="frame" x="88" y="53" width="195" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" none="YES" link="YES" staticText="YES"/>
+                                            </accessibility>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="emailLabel" destination="fM5-BO-Lpf" id="S5F-uy-0BR"/>
+                                    <outlet property="musicianName" destination="FHh-ak-u95" id="hc1-rO-qOW"/>
+                                    <outlet property="phoneLabel" destination="Fvq-yt-8Xr" id="eRx-w0-fWv"/>
+                                    <outlet property="thumbnailImageView" destination="h9e-gR-meM" id="jT6-FA-Akr"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Musicians" id="4gG-xQ-7vv"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="f0n-eH-5NS" id="Fxm-cQ-6fx"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BA1-9p-c11" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="Nzb-q4-SYT">
+                    <connections>
+                        <outlet property="delegate" destination="LxA-BZ-vfs" id="6zH-Ve-OuT"/>
+                        <outlet property="searchContentsController" destination="LxA-BZ-vfs" id="EtC-F2-k5u"/>
+                        <outlet property="searchResultsDataSource" destination="LxA-BZ-vfs" id="FD5-uQ-8wa"/>
+                        <outlet property="searchResultsDelegate" destination="LxA-BZ-vfs" id="65V-Xu-TKd"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="0OF-me-QLe">
+                    <connections>
+                        <outlet property="delegate" destination="LxA-BZ-vfs" id="l6J-6t-kfO"/>
+                        <outlet property="searchBar" destination="qtQ-Q8-Nzn" id="uq5-BH-0nK"/>
+                        <outlet property="searchContentsController" destination="LxA-BZ-vfs" id="xxE-AQ-OdQ"/>
+                        <outlet property="searchResultsDataSource" destination="LxA-BZ-vfs" id="0bT-Ka-mcc"/>
+                        <outlet property="searchResultsDelegate" destination="LxA-BZ-vfs" id="lzZ-Ox-T3t"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="-10" y="467"/>
         </scene>
     </scenes>
     <resources>
@@ -530,6 +637,24 @@
         </class>
         <class className="ForumTopicViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumTopicViewController.h"/>
+        </class>
+        <class className="InstrumentTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InstrumentTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="instrumentName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="InstrumentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InstrumentViewController.h"/>
+        </class>
+        <class className="MusicianTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicianTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="musicianName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="phoneLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
+            </relationships>
         </class>
         <class className="MusicianViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicianViewController.h"/>

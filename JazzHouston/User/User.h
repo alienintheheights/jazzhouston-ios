@@ -28,5 +28,8 @@
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, strong) UIImage *imageData;
+@property (nonatomic, strong) NSString *cellPhone;
+@property (nonatomic, strong) NSString *homePhone;
+
 
 @end

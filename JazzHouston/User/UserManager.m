@@ -59,6 +59,9 @@ static NSMutableDictionary *_userCache;
 	cachedUser.username = [userData objectForKey:@"username"];
 	cachedUser.imageFullURLPath = [cachedUser.userData objectForKey:@"image"];
 	cachedUser.imageURLPath = nil;
+	cachedUser.cellPhone = [cachedUser.userData objectForKey:@"cell_phone"];
+	cachedUser.homePhone = [cachedUser.userData objectForKey:@"home_phone"];
+
 	
 	// cache
 	//[_userCache setObject:cachedUser forKey:userId];

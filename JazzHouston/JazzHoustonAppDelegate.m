@@ -10,6 +10,7 @@
 #import "JazzHoustonViewController.h"
 #import "ForumIndexTableViewController.h"
 #import "EventIndexTableViewController.h"
+
 @implementation JazzHoustonAppDelegate
 
 @synthesize window = _window;
@@ -21,6 +22,9 @@
 	[self.forumEngine useCache];
 	// using categorized UIImageView from MKNetworkKit
 	[UIImageView setDefaultEngine:self.forumEngine];
+	
+	self.musicianEngine = [[MusicianEngine alloc] initWithHostName:@"jazzhouston.com"];
+	[self.musicianEngine useCache];
 	
 	
 	return YES;

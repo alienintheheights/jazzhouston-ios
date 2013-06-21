@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#import "JazzHoustonAppDelegate.h"
 #import "ForumIndexTableViewController.h"
 #import "ForumTopicViewController.h"
 #import "ForumTopicTableViewCell.h"
@@ -41,10 +40,10 @@
 	// sender is the tableview cell
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 	if ([segue.identifier isEqualToString:@"ForumTopics"])
-		{
+	{
 		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
 		forumTopicVC.topicId = [sender fetchTopicId:(self.forumTopics)[indexPath.row]];
-		}
+	}
 }
 
 
@@ -65,7 +64,26 @@
 
 
 
-#pragma mark - Custom Load Methods
+#pragma mark - Custom Forum Methods
+
+
+-(UIActivityIndicatorView *)animate {
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+	spinner.center = CGPointMake(160, 60);
+	spinner.hidesWhenStopped = YES;
+	[self.view addSubview:spinner];
+	[spinner startAnimating];
+	
+	return spinner;
+	
+}
+
+-(void)endLoading:(UIActivityIndicatorView *)spinner {
+	[self.refreshControl endRefreshing];
+	[spinner stopAnimating];
+}
+
 
 - (void)refreshSelector:(UIButton*)sender{
 	// reset data and start from the top
@@ -79,43 +97,36 @@
 **/
 - (void)loadInBackground:(BOOL)forceReload
 {
-	// TODO: combine w/ topictableviewC into a method--perhaps a common parent Controller too?
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(160, 60);
-    spinner.hidesWhenStopped = YES;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
 	
+	// TODO: combine w/ topictableviewC into a method--perhaps a common parent Controller too?
+	UIActivityIndicatorView *spinner = [self animate];
 	
 	NSLog(@"attempting to fetch pageNumber %d", self.pageNumber);
-	// The MK completion handler fires twice if cached.
+	// NOTE: the MKNetworkKit completion handler fires twice if cached.
 	// We will know if it's a cached call via the param isCached
 	// We also have a local array of data and current page to think about it
 	[ApplicationDelegate.forumEngine
 			fetchRemoteTopics:(forceReload)? 1: self.pageNumber
 			  withForceReload:forceReload
 			completionHandler:^(NSMutableArray* jsonForumPosts, BOOL isCached) {
+				// MK double-load annoyance
+				if (!isCached) {
+					NSLog(@"I am a cached page, goodbye");
+					return;
+				}
 				
-				// if force re-init the array, but watch out for the MK double-load annoyance!
-				if (forceReload && !isCached) {
+				// forceReload => re-init the array
+				if (forceReload) {
 					self.forumTopics = [[NSMutableArray alloc] init]; // let ARC clean it up
 					if (self.pageNumber>1) self.pageNumber = 1; // reset
 				}
-				
-				 // if forumTopics array is missing that page's data, add it to the array
-				 //NSLog(@"current size of page %d is %d", self.pageNumber, [self.forumTopics count]);
-				 // Do we already have this page's data?
-				 if ([self.forumTopics count]<PER_PAGE*self.pageNumber) {
-					 [self.forumTopics addObjectsFromArray:jsonForumPosts];
-					 //NSLog(@"done fetching, about to reload with pageNumber %d", self.pageNumber);
-					 [self.tableView reloadData];
-					 self.pageNumber++; // enable next page
-				 }
-				 
-				 [self.refreshControl endRefreshing];
-				 [spinner stopAnimating];
-				  NSLog(@"Am I cached forum topic data? %@", isCached ? @"YES" : @"NO");
-				 
+				// add (or append) objects
+				[self.forumTopics addObjectsFromArray:jsonForumPosts];
+				[self.tableView reloadData];
+				// enable next page
+			    self.pageNumber++; 
+				[self endLoading:spinner];
+				 				 
 			 }
 			 errorHandler:^(NSError* error) {
 				 //TODO: implement

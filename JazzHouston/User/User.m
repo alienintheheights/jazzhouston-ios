@@ -26,6 +26,9 @@
 @synthesize email = _email;
 @synthesize url = _url;
 @synthesize username = _username;
+@synthesize cellPhone = _cellPhone;
+@synthesize homePhone = _homePhone;
+
 
 /**
 Convenience function for fullName

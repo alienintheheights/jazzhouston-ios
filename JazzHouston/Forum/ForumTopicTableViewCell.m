@@ -55,7 +55,9 @@
 	}
 }
 
-
+/**
+ For Use by the Segue
+**/
 -(int)fetchTopicId:(NSDictionary *)forumTopicData {
 	ForumTopic *forumTopic = [[ForumTopic alloc] initWithJSONData:forumTopicData];
 	return forumTopic.topicId;

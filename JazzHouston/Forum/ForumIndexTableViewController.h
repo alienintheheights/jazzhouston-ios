@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JazzHoustonAppDelegate.h"
 
 @interface ForumIndexTableViewController : UITableViewController
 

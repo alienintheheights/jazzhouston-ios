@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ForumEngine.h"
+#import "MusicianEngine.h"
 
 @interface JazzHoustonAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,5 +19,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) ForumEngine *forumEngine;
+@property (strong, nonatomic) MusicianEngine *musicianEngine;
 
 @end

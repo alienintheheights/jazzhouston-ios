@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JazzHoustonAppDelegate.h"
 
 @interface MusicianViewController : UITableViewController
+
+@property (nonatomic) int instId;
+
+@property (strong, nonatomic) NSMutableArray *musicians;
+
 
 @end

@@ -68,7 +68,8 @@
 		[self.thumbnailImageView setImageFromURL:[NSURL URLWithString:imagePath] placeHolderImage:nil];
 	} else {
 		[self.thumbnailImageView setImage:DEFAULT_IMAGE];
-	}}
+	}
+}
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
