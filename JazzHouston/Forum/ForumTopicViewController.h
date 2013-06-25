@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForumTopicViewController : UITableViewController
+#import "JazzHoustonViewController.h"
+#import "ForumIndexTableViewController.h"
+
+
+
+
+
+@interface ForumTopicViewController : JazzHoustonViewController
+
+
+@property (nonatomic, weak) id<ForumShareDelegate> delegate;
+
 
 @property (nonatomic) int topicId;
 

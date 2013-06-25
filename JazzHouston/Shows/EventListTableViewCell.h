@@ -14,4 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *startTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
+-(void) setCellData:(NSDictionary *) thisInstrument;
+-(int)fetchId:(NSDictionary *)data;
+
 @end

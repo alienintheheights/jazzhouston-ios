@@ -51,9 +51,14 @@ static NSMutableDictionary *_userCache;
 	// instantiate user
 	cachedUser = [[User alloc] init];
 	cachedUser.userData = userData;
-	cachedUser.firstName = [userData objectForKey:@"first_name"];
 	cachedUser.userId = [userId intValue];
+	
+	cachedUser.firstName = [userData objectForKey:@"first_name"];
+	if (cachedUser.firstName == (id)[NSNull null])
+		cachedUser.firstName = @"";
 	cachedUser.lastName = [userData objectForKey:@"last_name"];
+	if (cachedUser.lastName == (id)[NSNull null])
+		cachedUser.lastName = @"";
 	cachedUser.email = [userData objectForKey:@"email"];
 	cachedUser.url = [userData objectForKey:@"url"];
 	cachedUser.username = [userData objectForKey:@"username"];

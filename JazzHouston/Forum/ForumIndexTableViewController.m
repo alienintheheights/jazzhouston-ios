@@ -12,10 +12,7 @@
 #import "ForumTopic.h"
 
 @interface ForumIndexTableViewController ()
-
-#define PER_PAGE 10
-
-@property (nonatomic) int pageNumber;
+@property (nonatomic) BOOL isReload;
 
 @end
 
@@ -23,26 +20,33 @@
 
 @synthesize pageNumber = _pageNumber;
 @synthesize boardId = _boardId;
+@synthesize jsonTopics = _jsonTopics;
+@synthesize isReload = _isReload;
+
+// id the loading tag
+int kLoadingCellTag = 1010;
 
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder])) {
-		self.pageNumber=1;
-		self.forumTopics = [[NSMutableArray alloc] init];
+		self.pageNumber = 0;
+		self.jsonTopics = [[NSMutableArray alloc] init];
+		self.isReload = NO;
 	}
 	return self;
 }
+
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	// sender is the tableview cell
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-	if ([segue.identifier isEqualToString:@"ForumTopics"])
-	{
+	if ([segue.identifier isEqualToString:@"ForumTopics"])	{
 		ForumTopicViewController *forumTopicVC = [segue destinationViewController];
-		forumTopicVC.topicId = [sender fetchTopicId:(self.forumTopics)[indexPath.row]];
+		forumTopicVC.delegate = self;
+		forumTopicVC.topicId = [sender fetchId:(self.jsonTopics)[indexPath.row]];
 	}
 }
 
@@ -55,130 +59,23 @@
 }
 
 
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-}
-
-
-
-#pragma mark - Custom Forum Methods
-
-
--(UIActivityIndicatorView *)animate {
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-	spinner.center = CGPointMake(160, 60);
-	spinner.hidesWhenStopped = YES;
-	[self.view addSubview:spinner];
-	[spinner startAnimating];
-	
-	return spinner;
-	
-}
-
--(void)endLoading:(UIActivityIndicatorView *)spinner {
-	[self.refreshControl endRefreshing];
-	[spinner stopAnimating];
-}
-
-
-- (void)refreshSelector:(UIButton*)sender{
-	// reset data and start from the top
-	[self loadInBackground:YES ];
-}
-
-/**
- Launches MKNetworkKit delegate
- Supports forced reload to skip cache and reset pageNumber
- Also starts and stops spinner animation
-**/
-- (void)loadInBackground:(BOOL)forceReload
-{
-	
-	// TODO: combine w/ topictableviewC into a method--perhaps a common parent Controller too?
-	UIActivityIndicatorView *spinner = [self animate];
-	
-	NSLog(@"attempting to fetch pageNumber %d", self.pageNumber);
-	// NOTE: the MKNetworkKit completion handler fires twice if cached.
-	// We will know if it's a cached call via the param isCached
-	// We also have a local array of data and current page to think about it
-	[ApplicationDelegate.forumEngine
-			fetchRemoteTopics:(forceReload)? 1: self.pageNumber
-			  withForceReload:forceReload
-			completionHandler:^(NSMutableArray* jsonForumPosts, BOOL isCached) {
-				// MK double-load annoyance
-				if (!isCached) {
-					NSLog(@"I am a cached page, goodbye");
-					return;
-				}
-				
-				// forceReload => re-init the array
-				if (forceReload) {
-					self.forumTopics = [[NSMutableArray alloc] init]; // let ARC clean it up
-					if (self.pageNumber>1) self.pageNumber = 1; // reset
-				}
-				// add (or append) objects
-				[self.forumTopics addObjectsFromArray:jsonForumPosts];
-				[self.tableView reloadData];
-				// enable next page
-			    self.pageNumber++; 
-				[self endLoading:spinner];
-				 				 
-			 }
-			 errorHandler:^(NSError* error) {
-				 //TODO: implement
-			 }];
-	
-}
-
-
-#pragma mark - Table view data source
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	static NSString *cellIdentifier = @"ForumTopicTableViewCell";
-	ForumTopicTableViewCell *cell;
-	cell = (ForumTopicTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	if (!cell) {
-		cell = [[ForumTopicTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-	}
-	NSDictionary *thisForumPost = (self.forumTopics)[indexPath.row];
-	
-    [cell setCellData:thisForumPost];
-	return cell;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return [self.forumTopics count];
-}
-
-
-
 #pragma mark - Table view
 
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	// add pull-to-refresh control
+	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	[refreshControl addTarget:self action:@selector(refreshSelector:) forControlEvents:UIControlEventValueChanged];
+    
+	refreshControl.tintColor = [UIColor blueColor];
+	self.refreshControl = refreshControl;
+	
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-	NSInteger currentOffset = scrollView.contentOffset.y;
-	NSInteger maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-	
-	
-	if (maximumOffset - currentOffset <= -40) {
-		// TODO: add loading image/animation
-		[self loadInBackground:false];
-	}
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row%2 == 0) {
-        UIColor *altCellColor = [UIColor colorWithWhite:0.7 alpha:0.2];
-        cell.backgroundColor = altCellColor;
-    }
-}
 
 /**
  Run at start-up or with the back button, so adjust responses accordingly
@@ -190,50 +87,143 @@
 	// if page>1 we can assumer this is loading from the back button or other nav.
 	// in order to save our place, do not reload the page in this case
 	if (self.pageNumber > 1) {
+		if (!self.isReload) {
+			// snap back to the top
+			NSIndexPath *topIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+			[self.tableView selectRowAtIndexPath:topIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+		}
+		self.isReload = NO;
 		return;
 	}
+	self.pageNumber = 1;
 	
-	[self loadInBackground:NO];
 }
 
 
 
-- (void)viewDidLoad
+- (void)didReceiveMemoryWarning
 {
-	[super viewDidLoad];
-	// add pull-to-refresh control
-	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-	[refreshControl addTarget:self action:@selector(refreshSelector:) forControlEvents:UIControlEventValueChanged];
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
+
+
+#pragma mark - Custom Forum Methods
+
+-(void)setData:(int)topicId {
+	if (topicId>0)
+		self.isReload = YES;
+}
+
+/**
+ Launches MKNetworkKit delegate
+ Supports forced reload to skip cache and reset pageNumber
+ Also starts and stops spinner animation
+ **/
+- (void)loadInBackground:(int)pageNumber
+{
+	
+	//NSLog(@"attempting to fetch pageNumber %d self.page =%d", pageNumber, self.pageNumber);
+	
+	// NOTE: the MKNetworkKit completion handler fires twice if cached.
+	// We will know if it's a cached call via the param isCached
+	// We also have a local array of data and current page to think about it
+	[ApplicationDelegate.jazzHoustonEngine
+		 fetchRemoteTopics:pageNumber
+		 withForceReload:false
+		 completionHandler:^(NSMutableArray* responseObject) {
+		 
+			 //NSLog(@"receiving data for pageNumber %d self.page=%d", pageNumber, self.pageNumber);
+			 for (id forumPosts in responseObject ) {
+				 ForumTopic *post = [[ForumTopic alloc] initWithJSONData:forumPosts];
+				 if (![self.jsonTopics containsObject:post]) {
+					 [self.jsonTopics addObject:post];
+				 }
+				 
+			 }
+	 
+			 [self.tableView reloadData];
+			 [self.refreshControl endRefreshing];
+		 }
+		 errorHandler:^(NSError* error) {
+			 NSLog(@"Error: %@", [error localizedDescription]);
+			 [[[UIAlertView alloc] initWithTitle:@"Error fetching forum posts"
+										  message:@"Please try again later"
+										 delegate:nil
+								cancelButtonTitle:@"OK"
+								otherButtonTitles:nil] show];
+		 }];
+	
+}
+
+
+- (UITableViewCell *)loadingCell {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     
-	refreshControl.tintColor = [UIColor blueColor];
-	self.refreshControl = refreshControl;
-	self.tableView.rowHeight = 120;
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]
+                                                  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.center = cell.center;
+    [cell addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    
+    cell.tag = kLoadingCellTag;
+    
+    return cell;
 }
 
 
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (UITableViewCell *)forumCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	static NSString *cellIdentifier = @"ForumTopicTableViewCell";
+	ForumTopicTableViewCell *cell;
+	cell = (ForumTopicTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	if (!cell) {
+		cell = [[ForumTopicTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+	}
+	ForumTopic *thisForumPost = (self.jsonTopics)[indexPath.row];
+	if (thisForumPost)
+		[cell setCellData:thisForumPost];
+	return cell;
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-	NSLog(@"View will disappear, parent");
+
+- (void)refreshSelector:(UIButton*)sender{
+	// reset data and start from the top
+	self.jsonTopics = [[NSMutableArray alloc] init];
+	self.pageNumber = 1;
+	[self loadInBackground:_pageNumber];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
+#pragma mark - Table view data source
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	//NSLog(@"Row is %d for total of %d", indexPath.row, [self.jsonHash count]);
+	if (indexPath.row < [self.jsonTopics count]) {
+        return [self forumCellForRowAtIndexPath:indexPath];
+    } else {
+        return [self loadingCell];
+    }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (cell.tag == kLoadingCellTag) {
+        _pageNumber++;
+		[self loadInBackground:_pageNumber];
+    }
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    [super viewWillAppear:animated];
+	// Return the number of rows in the section.
+    // If data source is yet empty, then return 0 cell.
+    // If data source is not empty, then return one more cell space.
+    // (for displaying the "Loading More..." text)
+    if ([self.jsonTopics count] == 0) {
+        return 1;
+    } else {
+        return [self.jsonTopics count] + 1;
+    }
 }
 
 

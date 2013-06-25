@@ -17,6 +17,7 @@
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		_timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+		[_timeIntervalFormatter setUsesAbbreviatedCalendarUnits:YES];
 		[_timeIntervalFormatter setLocale:[NSLocale currentLocale]];
 	});
 	return _timeIntervalFormatter;

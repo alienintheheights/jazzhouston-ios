@@ -35,7 +35,8 @@ Convenience function for fullName
  **/
 -(NSString *) fullName
 {
-	return [self.firstName stringByAppendingString:[@" " stringByAppendingString:self.lastName] ];
+
+	return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 	
 }
 

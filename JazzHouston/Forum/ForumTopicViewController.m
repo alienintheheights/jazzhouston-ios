@@ -12,6 +12,8 @@
 #import "ForumPost.h"
 #import "ForumPostTableViewCell.h"
 #import "NSString+Sizer.h"
+#import "ForumReplyButton.h"
+#import "ForumReplyViewController.h"
 
 
 
@@ -22,6 +24,7 @@
 
 @property (nonatomic) int pageNumber;
 @property (nonatomic) NSMutableDictionary *sizeDict;
+
 
 @end
 
@@ -60,6 +63,22 @@
 	[super viewWillDisappear:animated];
 	//[self.parentViewController ];
 	NSLog(@"View will disappear, child");
+	[self.delegate setData:self.topicId ];
+}
+
+-(void)openReplyView:(ForumReplyButton *)sender {
+	
+	[self performSegueWithIdentifier:@"ForumReply" sender:sender];
+}
+
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	// sender is the tableview cell
+	if ([segue.identifier isEqualToString:@"ForumReply"]) {
+		ForumReplyViewController *fvc = [segue destinationViewController];
+		fvc.topicId = [NSNumber numberWithInt:self.topicId];
+	}
 }
 
 
@@ -72,15 +91,14 @@
  **/
 - (void)viewDidAppear:(BOOL)animated
 {
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(160, 60);
-    spinner.hidesWhenStopped = YES;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
-	[ApplicationDelegate.forumEngine
+	
+	
+	UIActivityIndicatorView *spinner = self.animate;
+	
+	[ApplicationDelegate.jazzHoustonEngine
 					 fetchRemotePostsByTopicId:self.topicId
 								 forPageNumber:self.pageNumber
-					         completionHandler:^(NSMutableArray* jsonForumPosts, BOOL isCached) {
+					         completionHandler:^(NSMutableArray* jsonForumPosts) {
 								
 								 self.topicPosts = [[NSMutableArray alloc] initWithArray:jsonForumPosts];
 								 self.sizeDict = [[NSMutableDictionary alloc] init];
@@ -104,6 +122,8 @@
 						  //TODO: implement
 					 }
 	 ];
+	[ApplicationDelegate.jazzHoustonEngine sessionDump];
+
     [super viewDidAppear:animated];
 }
 
@@ -117,6 +137,17 @@
     
 	refreshControl.tintColor = [UIColor blueColor];
 	self.refreshControl = refreshControl;
+	
+	ForumReplyButton *myButton = [ForumReplyButton buttonWithType:UIButtonTypeCustom];
+	[myButton setTitle:@"Reply" forState:UIControlStateNormal];
+	myButton.showsTouchWhenHighlighted = YES;
+	myButton.frame = CGRectMake(0.0, 0.0, 50, 50);
+	
+	[myButton addTarget:self action:@selector(openReplyView:) forControlEvents:UIControlEventTouchUpInside];
+	
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithCustomView:myButton];
+	self.navigationItem.rightBarButtonItem = rightButton;
+
 }
 
 #pragma mark - Table view data source

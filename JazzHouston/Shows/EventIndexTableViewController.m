@@ -7,43 +7,65 @@
 //
 
 #import "EventIndexTableViewController.h"
-#import "EventsDataController.h"
 #import "EventListTableViewCell.h"
 #import "EventDetailViewController.h"
 #import "EventListing.h"
 #import "Venue.h"
 
 
-@interface EventIndexTableViewController ()
-
-@property (nonatomic, strong) EventsDataController *showsDataController;
-
-@end
-
 
 @implementation EventIndexTableViewController
 
-@synthesize showsDataController = _showsDataController;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	NSLog(@"initWithCoder");
 	if ((self = [super initWithCoder:aDecoder])) {
 		
-        self.showsDataController = [[EventsDataController alloc] init];
+		self.shows = [[NSMutableArray alloc] init];
     }
 	
     return self;
 }
+
+- (void)viewDidLoad
+{
+	
+	[super viewDidLoad];
+
+	// add pull-to-refresh control
+	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	[refreshControl addTarget:self action:@selector(loadInBackground) forControlEvents:UIControlEventValueChanged];
+
+	refreshControl.tintColor = [UIColor magentaColor];
+	self.refreshControl = refreshControl;	
+}
+
+-(void)loadInBackground {
+	
+	[ApplicationDelegate.jazzHoustonEngine fetchShowsToday:^(NSMutableArray* jsonResponse) {
+		self.shows = [[NSMutableArray alloc] init]; // let ARC clean it up
+		[self.shows addObjectsFromArray:jsonResponse];
+		[self.tableView reloadData];
+		[self.refreshControl endRefreshing];
+	}
+    errorHandler:^(NSError* error) {
+	  //TODO: implement
+    }];
+
+}
+
+/**
+ Run at start-up or with the back button, so adjust responses accordingly
+ **/
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self loadInBackground];
+}
+
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -54,79 +76,18 @@
 	if (!cell) {
 		cell = [[EventListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
-	
-	// TODO: handle case where returned data is empty (i.e., erase the "loading data" message)
-	if ([self.showsDataController numberOfShows]==0)
-	{
+	if ([self.shows count]==0)
 		return cell;
-		
-	}
-	
-	// extract data for this row
-	EventListing *eventListing = [self.showsDataController getEventByRow:indexPath.row];
-	Venue *currentVenue = eventListing.venue;
-	cell.venueLabel.text = currentVenue.title;
-	
-	// draw text into row
-	cell.showLabel.text = eventListing.performer;
-	cell.startTimeLabel.text = eventListing.startTime;
-	
-	//NSLog(@"Event Listing %@, %@, %@", eventListing.performer, eventListing.startTime, eventListing.venue.title );
-	if (eventListing.typeOfEvent == 1)
-	{
-		NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-		[dateFormat setDateFormat:@"EEEE"];
-		NSString *dateString = [dateFormat stringFromDate:eventListing.showDate];
-		cell.dateLabel.text = dateString;
-	} else {		
-		cell.dateLabel.text = eventListing.dayOfWeek;			
-	}
-	
-		
+	NSDictionary *event = (self.shows)[indexPath.row];
+    [cell setCellData:event];
 	
 	return cell;
 }
 
 
-- (void)viewDidLoad
-{
-	NSLog(@"starting Shows viewDidLoad");
-    [super viewDidLoad];
-	
-	
-	// add pull-to-refresh control
-	UIRefreshControl *refreshControl = [[UIRefreshControl alloc]
-										init];
-	[refreshControl addTarget:self action:@selector(loadInBackground) forControlEvents:UIControlEventValueChanged];
-    
-	refreshControl.tintColor = [UIColor magentaColor];
-	self.refreshControl = refreshControl;
-	[self.view setBackgroundColor:[UIColor whiteColor]];
-	[self.tableView setHidden:YES];
-	[self loadInBackground];
-	
-}
-
-- (void)loadInBackground
-{
-	
-	// The Beauty of THREADING!!
-	dispatch_queue_t downloadQueue = dispatch_queue_create("jazzhouston events", NULL);
-	dispatch_async(downloadQueue, ^{
-		[self.showsDataController loadRemoteJSONShowData];
-		dispatch_async(dispatch_get_main_queue(), ^{
-			
-			[self.tableView setHidden:NO];
-			[self.tableView reloadData];
-			[self.refreshControl endRefreshing];
-		});
-	});
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	int rows = [self.showsDataController numberOfShows];
-	return (rows > 0) ?  rows : 1; // faulty logic, rows = 0 too
+	return [self.shows count];
 }
 
 
@@ -144,14 +105,13 @@
 {
 	// sender is the tableview cell
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-	NSLog(@"I am preparing for segue with %@", indexPath);
+	
 	if ([segue.identifier isEqualToString:@"EventDetails"])
 	{
-		EventListing *eventListing = [self.showsDataController getEventByRow:indexPath.row];
 		EventDetailViewController *eventDetailVC = [segue destinationViewController];
-		eventDetailVC.eventId = eventListing.eventId;
-		eventDetailVC.eventListing = eventListing;
-		NSLog(@"I am switching to forum Topics vc %@", eventListing.performer);
+		int eventId = [sender fetchId:(self.shows)[indexPath.row]];
+		NSLog(@"I am preparing for segue with %d", eventId);
+		eventDetailVC.eventId = eventId;
 	}
 }
 

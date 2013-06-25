@@ -33,7 +33,6 @@
 	if ([segue.identifier isEqualToString:@"MusiciansByInstrument"]) {
 		MusicianViewController *musicianVC = [segue destinationViewController];
 		musicianVC.instId = [sender fetchInstId:(self.instruments)[indexPath.row]];
-		NSLog(@"Seque for instId = %d",musicianVC.instId);
 	}
 }
 
@@ -44,7 +43,7 @@
 {
     [super viewDidLoad];
 	
-	[ApplicationDelegate.musicianEngine fetchInstruments:^(NSMutableArray* jsonInstruments) {		 
+	[ApplicationDelegate.jazzHoustonEngine fetchInstruments:^(NSMutableArray* jsonInstruments) {
 		 self.instruments = [[NSMutableArray alloc] init]; // let ARC clean it up
 		 [self.instruments addObjectsFromArray:jsonInstruments];
 		 [self.tableView reloadData];

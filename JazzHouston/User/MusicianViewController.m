@@ -67,7 +67,7 @@
 	// TODO: combine w/ topictableviewC into a method--perhaps a common parent Controller too?
 	UIActivityIndicatorView *spinner = [self animate];
 	
-    [ApplicationDelegate.musicianEngine
+    [ApplicationDelegate.jazzHoustonEngine
 			 fetchRemoteMusicians:self.instId
 			 forPageNumber:(forceReload)? 1: self.pageNumber
 			 withForceReload:forceReload

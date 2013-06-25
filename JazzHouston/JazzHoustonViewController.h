@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JazzHoustonViewController : UIViewController
+@interface JazzHoustonViewController : UITableViewController
+
+-(UIActivityIndicatorView *)animate;
+-(void)endLoading:(UIActivityIndicatorView *)spinner;
 
 @end

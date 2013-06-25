@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JazzHoustonAppDelegate.h"
 
 @interface EventIndexTableViewController : UITableViewController
+
+
+@property (strong, nonatomic) NSMutableArray *shows;
+
+
 
 @end

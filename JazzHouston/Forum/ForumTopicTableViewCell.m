@@ -37,8 +37,7 @@
     // Configure the view for the selected state
 }
 
--(void) setCellData:(NSDictionary *) forumTopicData {
-	ForumTopic *forumTopic = [[ForumTopic alloc] initWithJSONData:forumTopicData];
+-(void) setCellData:(ForumTopic *) forumTopic {
 	User *currentUser = forumTopic.user;
 	
 	// draw text into row
@@ -58,8 +57,7 @@
 /**
  For Use by the Segue
 **/
--(int)fetchTopicId:(NSDictionary *)forumTopicData {
-	ForumTopic *forumTopic = [[ForumTopic alloc] initWithJSONData:forumTopicData];
+-(int)fetchId:(ForumTopic *)forumTopic {
 	return forumTopic.topicId;
 }
 

@@ -7,13 +7,30 @@
 //
 
 #import "JazzHoustonViewController.h"
-#import "ForumIndexTableViewController.h"
 
 @interface JazzHoustonViewController ()
 
 @end
 
 @implementation JazzHoustonViewController
+
+
+-(UIActivityIndicatorView *)animate {
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+	spinner.center = CGPointMake(160, 60);
+	spinner.hidesWhenStopped = YES;
+	[self.view addSubview:spinner];
+	[spinner startAnimating];
+	
+	return spinner;
+	
+}
+
+-(void)endLoading:(UIActivityIndicatorView *)spinner {
+	[self.refreshControl endRefreshing];
+	[spinner stopAnimating];
+}
 
 
 

@@ -8,6 +8,7 @@
 
 #import "EventDetailViewController.h"
 #import "EventListing.h"
+#import "Venue.h"
 #import "NSString+stripHTML.h"
 
 @interface EventDetailViewController ()
@@ -17,7 +18,6 @@
 @implementation EventDetailViewController
 
 @synthesize eventId;
-@synthesize eventListing;
 @synthesize showAboutText;
 @synthesize venueLabel;
 @synthesize showPerformerLabel;
@@ -30,32 +30,36 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	self.showAboutText.text = [self.eventListing.about stripHtml];
-	self.showPerformerLabel.text = self.eventListing.performer;
-	if (self.eventListing.venue.title != (id)[NSNull null])
-		self.venueLabel.text = self.eventListing.venue.title;
-	if (self.eventListing.venue.address != (id)[NSNull null])
-		self.venueAddressLabel.text = self.eventListing.venue.address;
-	if (self.eventListing.venue.phone != (id)[NSNull null])
-		self.venuePhoneLabel.text = self.eventListing.venue.phone;
-	
-	self.showTimeLabel.text = self.eventListing.startTime;
-	if (self.eventListing.typeOfEvent == 1)
-	{
-		NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-		[dateFormat setDateFormat:@"EEEE"];
-		NSString *dateString = [dateFormat stringFromDate:eventListing.showDate];
-		self.showDateLabel.text = dateString;
-	} else {
-		self.showDateLabel.text = eventListing.dayOfWeek;
+	[ApplicationDelegate.jazzHoustonEngine fetchShowDetails:self.eventId completionHandler:^(NSMutableDictionary *jsonResponse) {
+		
+		EventListing *eventListing  = [[EventListing alloc] initWithJSONData:[jsonResponse objectForKey:@"event"]];
+		
+		self.showAboutText.text = [eventListing.about stripHtml];
+		self.showPerformerLabel.text = eventListing.performer;
+		if (eventListing.venue.title != (id)[NSNull null])
+			self.venueLabel.text = eventListing.venue.title;
+		if (eventListing.venue.address != (id)[NSNull null])
+			self.venueAddressLabel.text = eventListing.venue.address;
+		if (eventListing.venue.phone != (id)[NSNull null])
+			self.venuePhoneLabel.text = eventListing.venue.phone;
+		
+		self.showTimeLabel.text = eventListing.startTime;
+		if (eventListing.typeOfEvent == 1)
+			{
+			NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+			[dateFormat setDateFormat:@"EEEE"];
+			NSString *dateString = [dateFormat stringFromDate:eventListing.showDate];
+			self.showDateLabel.text = dateString;
+			} else {
+				self.showDateLabel.text = eventListing.dayOfWeek;
+		}
+		
 	}
+   errorHandler:^(NSError* error) {
+	   //TODO: implement
+	   NSLog(@"Error message %@", error);
+   }];
 	
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,16 +68,6 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)viewDidUnload {
-	[self setShowPerformerLabel:nil];
-	[self setShowAboutText:nil];
-	[self setShowAboutText:nil];
-	[self setVenueLabel:nil];
-	[self setShowTimeLabel:nil];
-	[self setShowDateLabel:nil];
-	[self setVenueAddressLabel:nil];
-	[self setShowAboutText:nil];
-    [self setShowAboutText:nil];
-	[self setVenuePhoneLabel:nil];
 	[super viewDidUnload];
 }
 @end

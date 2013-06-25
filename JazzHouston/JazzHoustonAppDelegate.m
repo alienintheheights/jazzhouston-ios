@@ -17,14 +17,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-	self.forumEngine = [[ForumEngine alloc] initWithHostName:@"jazzhouston.com"];
-	[self.forumEngine useCache];
+	// TODO: Temp code, to replace
+	self.jazzHoustonEngine = [[JazzHoustonEngine alloc] initWithHostName:@"fauxmat.com"];
+	[self.jazzHoustonEngine useCache];
 	// using categorized UIImageView from MKNetworkKit
-	[UIImageView setDefaultEngine:self.forumEngine];
+	[UIImageView setDefaultEngine:self.jazzHoustonEngine];
 	
-	self.musicianEngine = [[MusicianEngine alloc] initWithHostName:@"jazzhouston.com"];
-	[self.musicianEngine useCache];
+	[self.jazzHoustonEngine login:@"MYUSER" andPassword:@"XYZ"];
+	
 	
 	
 	return YES;

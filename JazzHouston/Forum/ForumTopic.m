@@ -41,5 +41,15 @@ UserManager *userManager;
 	
 }
 
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[ForumTopic class]]) {
+        return NO;
+    }
+    
+    ForumTopic *other = (ForumTopic *)object;
+    return other.topicId == self.topicId;
+}
+
+
 
 @end

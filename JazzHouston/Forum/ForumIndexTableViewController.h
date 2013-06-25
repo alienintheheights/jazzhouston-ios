@@ -8,11 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "JazzHoustonAppDelegate.h"
+#import "JazzHoustonViewController.h"
 
-@interface ForumIndexTableViewController : UITableViewController
+
+@protocol ForumShareDelegate
+
+-(void)setData:(int)topicId;
+
+@end
+
+@interface ForumIndexTableViewController : JazzHoustonViewController <ForumShareDelegate>
+
+#define PER_PAGE 10
 
 @property (nonatomic, strong) NSString *boardId;
-
-@property (strong, nonatomic) NSMutableArray *forumTopics;
+@property (nonatomic) int pageNumber;
+@property (strong, nonatomic) NSMutableArray *jsonTopics;
 
 @end
