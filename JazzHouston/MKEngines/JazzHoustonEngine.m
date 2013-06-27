@@ -45,7 +45,10 @@ static NSString *authToken;
 
 #pragma mark - Login REST calls
 
--(void)login:(NSString *)username andPassword:(NSString *)password
+-(void)login:(NSString *)username
+	andPassword:(NSString *)password
+	completionHandler:(SimpleResponseBlock)loginBlock
+		errorHandler:(MKNKErrorBlock)errorBlock
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	
@@ -53,13 +56,16 @@ static NSString *authToken;
     [params setObject:password forKey:@"password"];
 	 [params setObject:@"on" forKey:@"remember_me"];
 	
-    MKNetworkOperation *op = [self operationWithPath:JH_LOGIN_URL params:params httpMethod:@"POST"];
+    MKNetworkOperation *op = [self operationWithPath:JH_LOGIN_URL params:params httpMethod:@"POST" ssl:YES ];
+	op.shouldContinueWithInvalidCertificate=YES;
 	
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
 		NSLog(@"response auth string: %@", completedOperation.responseString);
 		authToken = completedOperation.responseString;
+		loginBlock(authToken);
 	 } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 		 NSLog(@"Server error: %@", [error localizedDescription]);
+		 errorBlock(error);
 	 }];
 	
     [self enqueueOperation:op];

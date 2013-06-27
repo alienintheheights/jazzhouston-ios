@@ -8,22 +8,35 @@
 
 #import "JazzHoustonAppDelegate.h"
 #import "JazzHoustonViewController.h"
-#import "ForumIndexTableViewController.h"
-#import "EventIndexTableViewController.h"
+#import "WelcomeViewController.h"
+
 
 @implementation JazzHoustonAppDelegate
 
 @synthesize window = _window;
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+	// BOOL readyToRun = startupWorkIsDone && userIsLoggedIn;
+	
+	// if (!readyToRun) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        WelcomeViewController *startupVC = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeController"];
+		
+        [self.window.rootViewController presentViewController:startupVC animated:NO  completion:nil];
+        // animate = NO because we don't want to see the mainVC's view
+		//}
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// TODO: Temp code, to replace
-	self.jazzHoustonEngine = [[JazzHoustonEngine alloc] initWithHostName:@"fauxmat.com"];
+	self.jazzHoustonEngine = [[JazzHoustonEngine alloc] initWithHostName:HOSTNAME];
 	[self.jazzHoustonEngine useCache];
 	// using categorized UIImageView from MKNetworkKit
 	[UIImageView setDefaultEngine:self.jazzHoustonEngine];
 	
-	[self.jazzHoustonEngine login:@"MYUSER" andPassword:@"XYZ"];
+	//[self.jazzHoustonEngine login:@"andrew" andPassword:@"jazzhouston"];
 	
 	
 	
@@ -47,10 +60,6 @@
 	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {

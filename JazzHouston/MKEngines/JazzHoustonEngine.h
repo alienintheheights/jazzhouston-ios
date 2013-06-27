@@ -10,12 +10,17 @@
 
 @interface JazzHoustonEngine : MKNetworkEngine
 
+typedef void (^SimpleResponseBlock)(NSString* jsonResponse);
 
 typedef void (^ResponseBlock)(NSMutableArray* jsonResponse);
 
 typedef void (^ResponseBlockDict)(NSMutableDictionary* jsonResponse);
 
--(void)login:(NSString *)username andPassword:(NSString *)password;
+-(void)login:(NSString *)username
+		andPassword:(NSString *)password
+			completionHandler:(SimpleResponseBlock)forumCellBlock
+				errorHandler:(MKNKErrorBlock)errorBlock;
+
 -(void)logout;
 -(void)sessionDump;
 

@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main View Controller-->
         <scene sceneID="u1G-W6-Vlb">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="fC6-xA-rBn" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="JazzHoustonTabBar" definesPresentationContext="YES" id="fC6-xA-rBn" customClass="MainViewController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="XHu-lx-9bu">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -22,7 +22,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XKS-UM-FWN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1475" y="-137"/>
+            <point key="canvasLocation" x="-1573" y="-49"/>
         </scene>
         <!--Navigation Controller - Calendar-->
         <scene sceneID="KuG-xh-Akh">
@@ -108,7 +108,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7o4-Xc-Pwd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-425" y="-813"/>
+            <point key="canvasLocation" x="-393" y="-813"/>
         </scene>
         <!--Event Detail View Controller - Event Details-->
         <scene sceneID="ofr-2w-2Tv">
@@ -231,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wxi-Jx-FDa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="27" y="-808"/>
+            <point key="canvasLocation" x="72" y="-800"/>
         </scene>
         <!--Forum Index Table View Controller - ForumIndexController-->
         <scene sceneID="1Z7-R4-hqs">
@@ -309,7 +309,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cu2-mg-h48" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-454" y="-154"/>
+            <point key="canvasLocation" x="72" y="-154"/>
         </scene>
         <!--Forum Topic View Controller-->
         <scene sceneID="Agj-01-6w8">
@@ -392,7 +392,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NVu-ju-RuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="-154"/>
+            <point key="canvasLocation" x="503" y="-154"/>
         </scene>
         <!--Forum Reply View Controller-->
         <scene sceneID="yux-MR-aQv">
@@ -421,7 +421,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4e-W7-W0n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="382" y="-144"/>
+            <point key="canvasLocation" x="908" y="-144"/>
         </scene>
         <!--Navigation Controller - Forums-->
         <scene sceneID="Gya-bz-PDc">
@@ -441,7 +441,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a5c-qW-gZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-892" y="-154"/>
+            <point key="canvasLocation" x="-366" y="-154"/>
         </scene>
         <!--Instrument View Controller - Instruments-->
         <scene sceneID="9B6-iF-uPd">
@@ -512,7 +512,203 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-430" y="467"/>
+            <point key="canvasLocation" x="110" y="555"/>
+        </scene>
+        <!--Table View Controller - Welcome-->
+        <scene sceneID="jIz-Yz-6ML">
+            <objects>
+                <tableViewController storyboardIdentifier="" id="vte-hc-n4d" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lu5-i8-Vjf">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="scaleToFill" image="jazzhouston.jpg" id="q73-wQ-hXZ">
+                            <rect key="frame" x="0.0" y="88" width="320" height="340"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <sections>
+                            <tableViewSection id="SKb-Dg-7uX">
+                                <cells>
+                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="HOr-Fq-xsN" style="IBUITableViewCellStyleDefault" id="P5r-hM-iev">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Register" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HOr-Fq-xsN">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="58A-vf-ryF" kind="push" id="lgs-oa-LNs"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="hgb-OK-C2f" style="IBUITableViewCellStyleDefault" id="oiN-nm-37v">
+                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hgb-OK-C2f">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="EfD-or-0ZE" kind="push" id="VYL-so-7pb"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Welcome" id="xEg-RS-5Jh"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UWK-SX-bzH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1558" y="1286"/>
+        </scene>
+        <!--Register View Controller - Register-->
+        <scene sceneID="5Xa-cW-1il">
+            <objects>
+                <viewController id="58A-vf-ryF" customClass="RegisterViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rhy-ut-J0O">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sia-Vq-zA6">
+                                <rect key="frame" x="106" y="310" width="86" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Sign Up!">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signup:" destination="58A-vf-ryF" eventType="touchUpInside" id="e3o-zz-9BW"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" id="vpE-Ac-0Vy">
+                                <rect key="frame" x="57" y="118" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" id="fVU-ye-Eci">
+                                <rect key="frame" x="57" y="164" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" id="yLg-cI-f0c">
+                                <rect key="frame" x="57" y="209" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" minimumFontSize="17" id="A8S-7E-Bl6">
+                                <rect key="frame" x="57" y="255" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="first name" minimumFontSize="17" id="l16-tF-i0x">
+                                <rect key="frame" x="57" y="20" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="last name" minimumFontSize="17" id="JCC-ki-pJm">
+                                <rect key="frame" x="57" y="68" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Register" id="btk-IL-Iht"/>
+                    <connections>
+                        <outlet property="confirmPasswordField" destination="A8S-7E-Bl6" id="pRU-NZ-qgG"/>
+                        <outlet property="emailField" destination="fVU-ye-Eci" id="ZYc-T3-Ll1"/>
+                        <outlet property="firstNameField" destination="l16-tF-i0x" id="ROw-GQ-P1t"/>
+                        <outlet property="lastNameField" destination="JCC-ki-pJm" id="rP3-yf-HnC"/>
+                        <outlet property="passwordField" destination="yLg-cI-f0c" id="A4Y-57-e2o"/>
+                        <outlet property="signupButton" destination="sia-Vq-zA6" id="ueD-Vj-wBB"/>
+                        <outlet property="usernameField" destination="vpE-Ac-0Vy" id="gef-43-NXb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="koo-tH-TbK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-936" y="993"/>
+        </scene>
+        <!--Login View Controller - Login-->
+        <scene sceneID="yfC-de-yXx">
+            <objects>
+                <viewController storyboardIdentifier="Login" id="EfD-or-0ZE" customClass="LoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EYp-9R-UvN">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" id="3qp-am-Pgx">
+                                <rect key="frame" x="43" y="41" width="226" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" id="1w4-oH-BZy">
+                                <rect key="frame" x="43" y="103" width="226" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="I6n-lJ-9CD">
+                                <rect key="frame" x="117" y="180" width="74" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signIn:" destination="EfD-or-0ZE" eventType="touchUpInside" id="kdA-Q8-J05"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Login" id="H98-DI-Zlm"/>
+                    <connections>
+                        <outlet property="passwordField" destination="1w4-oH-BZy" id="oq0-VW-eKk"/>
+                        <outlet property="signInButton" destination="I6n-lJ-9CD" id="jO7-W2-Hju"/>
+                        <outlet property="usernameField" destination="3qp-am-Pgx" id="USM-7e-cgT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ues-it-lvf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-936" y="1678"/>
         </scene>
         <!--Navigation Controller - Musicians-->
         <scene sceneID="zw5-9p-eos">
@@ -528,7 +724,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtY-94-T55" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-892" y="467"/>
+            <point key="canvasLocation" x="-352" y="555"/>
         </scene>
         <!--Musician View Controller - Musicians-->
         <scene sceneID="7sV-n5-pf0">
@@ -622,12 +818,141 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-10" y="467"/>
+            <point key="canvasLocation" x="530" y="555"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vjM-vV-ieK">
+            <objects>
+                <navigationController storyboardIdentifier="WelcomeController" id="xbU-QU-nv5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EBu-Kb-hJw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vte-hc-n4d" kind="relationship" relationship="rootViewController" id="mDv-PI-3oJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XJg-d1-DL4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2084" y="1286"/>
         </scene>
     </scenes>
     <resources>
+        <image name="jazzhouston.jpg" width="500" height="375"/>
         <image name="jazzhouston.png" width="57" height="57"/>
     </resources>
+    <classes>
+        <class className="EventDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="showAboutText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="showDateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="showPerformerLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="showTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="venueAddressLabel" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="venueLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="venuePhoneLabel" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="EventIndexTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventIndexTableViewController.h"/>
+        </class>
+        <class className="EventListTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EventListTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="showLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="startTimeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="venueLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ForumIndexTableViewController" superclassName="JazzHoustonViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumIndexTableViewController.h"/>
+        </class>
+        <class className="ForumPostTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumPostTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="authorLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="fullName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="likeCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="messageBodyWebView" candidateClass="UIWebView"/>
+                <relationship kind="outlet" name="postDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="ForumReplyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumReplyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="replyToPost:"/>
+                <relationship kind="outlet" name="replyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topicName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ForumTopicTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumTopicTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="authorLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lastPostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="numberOfPostsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ForumTopicViewController" superclassName="JazzHoustonViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ForumTopicViewController.h"/>
+        </class>
+        <class className="InstrumentTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InstrumentTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="instrumentName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="InstrumentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InstrumentViewController.h"/>
+        </class>
+        <class className="JazzHoustonViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/JazzHoustonViewController.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signIn:"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="signInButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="MainViewController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
+        </class>
+        <class className="MusicianTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicianTableViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="emailLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="musicianName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="phoneLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="MusicianViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicianViewController.h"/>
+        </class>
+        <class className="RegisterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RegisterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="signup:"/>
+                <relationship kind="outlet" name="confirmPasswordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="emailField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="firstNameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="lastNameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="signupButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
