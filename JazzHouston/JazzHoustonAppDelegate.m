@@ -7,26 +7,44 @@
 //
 
 #import "JazzHoustonAppDelegate.h"
-#import "JazzHoustonViewController.h"
 #import "WelcomeViewController.h"
 
 
 @implementation JazzHoustonAppDelegate
 
+NSString * const HOSTNAME = @"jazzhouston.com";
+
 @synthesize window = _window;
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+static BOOL _isReady = NO;
 
-	// BOOL readyToRun = startupWorkIsDone && userIsLoggedIn;
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	// TODO: THIS IS HACKED BS. I WILL FIX
 	
-	// if (!readyToRun) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        WelcomeViewController *startupVC = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeController"];
-		
-        [self.window.rootViewController presentViewController:startupVC animated:NO  completion:nil];
-        // animate = NO because we don't want to see the mainVC's view
-		//}
+	// auto-login
+	if (!_isReady) {
+		[ApplicationDelegate.jazzHoustonEngine checkSession:^(NSString* userId) {
+				if (!userId ) {
+						UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+						WelcomeViewController *startupVC = [storyboard instantiateViewControllerWithIdentifier:@"WelcomeController"];
+						[self.window.rootViewController presentViewController:startupVC animated:NO  completion:nil];
+				} else {
+					// do something with the user id
+					_isReady = YES;
+				}
+			}
+			errorHandler:^(NSError* error) {
+				NSLog(@"Error: %@", [error localizedDescription]);
+				[[[UIAlertView alloc] initWithTitle:@"Error Checking Session"
+											message:@"Please try again later."
+										   delegate:nil
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil] show];
+			}];
+	}
+	
+	
+	
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -35,8 +53,6 @@
 	[self.jazzHoustonEngine useCache];
 	// using categorized UIImageView from MKNetworkKit
 	[UIImageView setDefaultEngine:self.jazzHoustonEngine];
-	
-	//[self.jazzHoustonEngine login:@"andrew" andPassword:@"jazzhouston"];
 	
 	
 	

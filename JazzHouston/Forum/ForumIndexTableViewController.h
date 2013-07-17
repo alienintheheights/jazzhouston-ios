@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JazzHoustonAppDelegate.h"
-#import "JazzHoustonViewController.h"
+#import "JazzHoustonTableViewController.h"
 
 
 @protocol ForumShareDelegate
@@ -17,7 +17,7 @@
 
 @end
 
-@interface ForumIndexTableViewController : JazzHoustonViewController <ForumShareDelegate>
+@interface ForumIndexTableViewController : JazzHoustonTableViewController <ForumShareDelegate>
 
 #define PER_PAGE 10
 

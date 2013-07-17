@@ -123,8 +123,6 @@ int kLoadingCellTag = 1010;
 - (void)loadInBackground:(int)pageNumber
 {
 	
-	//NSLog(@"attempting to fetch pageNumber %d self.page =%d", pageNumber, self.pageNumber);
-	
 	// NOTE: the MKNetworkKit completion handler fires twice if cached.
 	// We will know if it's a cached call via the param isCached
 	// We also have a local array of data and current page to think about it
@@ -133,7 +131,6 @@ int kLoadingCellTag = 1010;
 		 withForceReload:false
 		 completionHandler:^(NSMutableArray* responseObject) {
 		 
-			 //NSLog(@"receiving data for pageNumber %d self.page=%d", pageNumber, self.pageNumber);
 			 for (id forumPosts in responseObject ) {
 				 ForumTopic *post = [[ForumTopic alloc] initWithJSONData:forumPosts];
 				 if (![self.jsonTopics containsObject:post]) {
@@ -192,14 +189,13 @@ int kLoadingCellTag = 1010;
 	// reset data and start from the top
 	self.jsonTopics = [[NSMutableArray alloc] init];
 	self.pageNumber = 1;
-	[self loadInBackground:_pageNumber];
+	[self loadInBackground:self.pageNumber];
 }
 
 #pragma mark - Table view data source
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"Row is %d for total of %d", indexPath.row, [self.jsonHash count]);
 	if (indexPath.row < [self.jsonTopics count]) {
         return [self forumCellForRowAtIndexPath:indexPath];
     } else {
@@ -209,8 +205,7 @@ int kLoadingCellTag = 1010;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (cell.tag == kLoadingCellTag) {
-        _pageNumber++;
-		[self loadInBackground:_pageNumber];
+        [self loadInBackground:++self.pageNumber];
     }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -18,11 +18,13 @@ typedef void (^ResponseBlockDict)(NSMutableDictionary* jsonResponse);
 
 -(void)login:(NSString *)username
 		andPassword:(NSString *)password
-			completionHandler:(SimpleResponseBlock)forumCellBlock
+			completionHandler:(SimpleResponseBlock)loginBlock
 				errorHandler:(MKNKErrorBlock)errorBlock;
 
 -(void)logout;
--(void)sessionDump;
+
+-(void)checkSession:(SimpleResponseBlock)responseBlock
+					   errorHandler:(MKNKErrorBlock)errorBlock;
 
 -(void) fetchRemoteTopics:(int)pageNumber
 		  withForceReload:(BOOL)forceReload

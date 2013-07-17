@@ -122,8 +122,7 @@
 						  //TODO: implement
 					 }
 	 ];
-	[ApplicationDelegate.jazzHoustonEngine sessionDump];
-
+	
     [super viewDidAppear:animated];
 }
 

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "JazzHoustonAppDelegate.h"
+#import "JazzHoustonTableViewController.h"	
 
-@interface MusicianViewController : UITableViewController
+@interface MusicianViewController : JazzHoustonTableViewController
 
 @property (nonatomic) int instId;
 

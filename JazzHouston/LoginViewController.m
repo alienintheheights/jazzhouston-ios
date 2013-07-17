@@ -20,11 +20,23 @@
 @synthesize signInButton = _signInButton;
 
 - (IBAction)signIn:(id)sender {
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+	spinner.center = CGPointMake(160, 60);
+	spinner.hidesWhenStopped = YES;
+	[self.view addSubview:spinner];
+	[spinner startAnimating];
+	
+
+	[self.signInButton setEnabled:NO];
 	[ApplicationDelegate.jazzHoustonEngine login:self.usernameField.text
 									 andPassword:self.passwordField.text
 							   completionHandler:^(NSString* authToken) {
+								   
 									   self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;   // your choice here from UIModalTransitionStyle
 									   [self dismissViewControllerAnimated:NO completion:nil];
+								   
+										[spinner stopAnimating];
 									}
 									errorHandler:^(NSError* error) {
 										NSLog(@"Error: %@", [error localizedDescription]);
@@ -33,18 +45,14 @@
 																   delegate:nil
 														  cancelButtonTitle:@"OK"
 														  otherButtonTitles:nil] show];
+										[spinner stopAnimating];
+
+										[self.signInButton setEnabled:YES];
+										
+										
 					}];
 
 	
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad

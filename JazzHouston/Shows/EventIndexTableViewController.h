@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "JazzHoustonAppDelegate.h"
+#import "JazzHoustonTableViewController.h"
 
-@interface EventIndexTableViewController : UITableViewController
+@interface EventIndexTableViewController : JazzHoustonTableViewController
 
 
 @property (strong, nonatomic) NSMutableArray *shows;

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "JazzHoustonAppDelegate.h"
+#import "JazzHoustonTableViewController.h"
 
-@interface InstrumentViewController : UITableViewController
+@interface InstrumentViewController : JazzHoustonTableViewController
 
 
 @property (strong, nonatomic) NSMutableArray *instruments;

@@ -50,24 +50,27 @@ static NSString *authToken;
 	completionHandler:(SimpleResponseBlock)loginBlock
 		errorHandler:(MKNKErrorBlock)errorBlock
 {
+	
+		
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	
     [params setObject:username forKey:@"login"];
     [params setObject:password forKey:@"password"];
-	 [params setObject:@"on" forKey:@"remember_me"];
+	[params setObject:@"on" forKey:@"remember_me"];
 	
     MKNetworkOperation *op = [self operationWithPath:JH_LOGIN_URL params:params httpMethod:@"POST" ssl:YES ];
 	op.shouldContinueWithInvalidCertificate=YES;
-	
-    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-		NSLog(@"response auth string: %@", completedOperation.responseString);
+	    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+		NSLog(@"Login response string: %@", completedOperation.responseString);	
+
 		authToken = completedOperation.responseString;
 		loginBlock(authToken);
 	 } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+		 authToken = nil;
 		 NSLog(@"Server error: %@", [error localizedDescription]);
 		 errorBlock(error);
 	 }];
-	
+	//[self emptyCache];
     [self enqueueOperation:op];
 }
 
@@ -84,24 +87,37 @@ static NSString *authToken;
 		NSLog(@"Server error: %@", [error localizedDescription]);
 	}];
 	
-    [self enqueueOperation:op];
+    [self enqueueOperation:op forceReload:true];
 }
 
 
--(void)sessionDump
+-(void)checkSession:(SimpleResponseBlock)responseBlock errorHandler:(MKNKErrorBlock)errorBlock
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	
     MKNetworkOperation *op = [self operationWithPath:JH_SESSION_DUMP_URL params:params httpMethod:@"GET"];
 	
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-		NSLog(@"response session dump string: %@", completedOperation.responseString);
-		authToken = completedOperation.responseString;
+		NSLog(@"response session dump string: %@ %@", completedOperation.responseString, params);
+		if (authToken) {
+			responseBlock(authToken);
+			return;
+		}
+		[completedOperation responseJSONWithOptions:NSJSONReadingAllowFragments completionHandler:^(id jsonObject) {
+			
+			NSString *userId = nil;
+			if ([jsonObject count]>0) {
+				userId = [jsonObject objectForKey:@"user"] ;
+				authToken = userId; // TODO: awful hack that I promise to fix.
+			}
+			responseBlock(userId);
+		}];
+		
 	} errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 		NSLog(@"Server error: %@", [error localizedDescription]);
+		errorBlock(error);
 	}];
-	
-    [self enqueueOperation:op];
+	[self enqueueOperation:op forceReload:true];
 }
 
 

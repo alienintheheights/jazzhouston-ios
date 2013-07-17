@@ -13,7 +13,7 @@
 
 
 #define ApplicationDelegate ((JazzHoustonAppDelegate *)[UIApplication sharedApplication].delegate)
-#define HOSTNAME @"jazzhouston.com"
+extern NSString * const HOSTNAME ;
 
 @property (strong, nonatomic) UIWindow *window;
 

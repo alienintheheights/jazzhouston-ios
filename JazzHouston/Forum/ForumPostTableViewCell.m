@@ -42,7 +42,7 @@
 	
 	ForumPost *forumPost = [[ForumPost alloc] initWithJSONData:forumTopicData];
 	User *currentUser = forumPost.user;
-	
+	[self setNeedsLayout];
 	
 	// draw text into row
 	self.fullName.text = currentUser.fullName;

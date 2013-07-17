@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
-#import "JazzHoustonViewController.h"
+#import "JazzHoustonTableViewController.h"
 
-@interface JazzHoustonViewController ()
+@interface JazzHoustonTableViewController ()
 
 @end
 
-@implementation JazzHoustonViewController
+@implementation JazzHoustonTableViewController
 
 
 -(UIActivityIndicatorView *)animate {

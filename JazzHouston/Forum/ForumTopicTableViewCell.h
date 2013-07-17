@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *lastPostLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfPostsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *postCountBox;
 
 -(void) setCellData:(ForumTopic *) thisForumRow;
 -(int)fetchId:(ForumTopic *)forumTopic;
